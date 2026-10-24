@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin Dashboard — Travel and Challenge</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/desktop.css">
+<link rel="stylesheet" href="/css/mobile.css">
+<link rel="stylesheet" href="/css/pages/admin.css?v=4">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+</head>
+<body data-protected="true">
+<nav id="site-nav" aria-label="Main"></nav>
+
+<div class="admin-shell">
+
+  <!-- Sidebar -->
+  <aside class="admin-sidebar" id="admin-sidebar">
+    <div class="sidebar-brand">
+      <span class="sidebar-brand-icon"><svg class="ic" width="22" height="22"><use href="/assets/icons/sprite.svg#i-trophy"></use></svg></span>
+      <span class="sidebar-brand-text">Admin Panel</span>
+    </div>
+    <nav class="sidebar-nav" role="navigation" aria-label="Admin sections">
+      <button class="snav-item active" data-tab="overview"  id="snav-overview"> <span class="snav-icon"><svg class="ic" width="18" height="18"><use href="/assets/icons/sprite.svg#i-chart"></use></svg></span><span class="snav-label">ภาพรวม</span></button>
+      <button class="snav-item"        data-tab="places"    id="snav-places">   <span class="snav-icon"><svg class="ic" width="18" height="18"><use href="/assets/icons/sprite.svg#i-pin"></use></svg></span><span class="snav-label">จัดการสถานที่</span></button>
+      <button class="snav-item"        data-tab="quests"    id="snav-quests">   <span class="snav-icon"><svg class="ic" width="18" height="18"><use href="/assets/icons/sprite.svg#i-quest"></use></svg></span><span class="snav-label">จัดการเควสท์</span></button>
+      <button class="snav-item"        data-tab="partners"  id="snav-partners"> <span class="snav-icon"><svg class="ic" width="18" height="18"><use href="/assets/icons/sprite.svg#i-store"></use></svg></span><span class="snav-label">ผู้ประกอบการ <span id="partner-badge" style="background:#EF4444;color:#fff;border-radius:9999px;padding:1px 7px;font-size:0.7rem;margin-left:4px;"></span></span></button>
+      <button class="snav-item"        data-tab="users"     id="snav-users">    <span class="snav-icon"><svg class="ic" width="18" height="18"><use href="/assets/icons/sprite.svg#i-user"></use></svg></span><span class="snav-label">จัดการผู้ใช้</span></button>
+      <button class="snav-item"        data-tab="tokens"    id="snav-tokens">   <span class="snav-icon"><svg class="ic" width="18" height="18"><use href="/assets/icons/sprite.svg#i-coin"></use></svg></span><span class="snav-label">การใช้โทเคน</span></button>
+      <button class="snav-item"        data-tab="ai"        id="snav-ai">       <span class="snav-icon"><svg class="ic" width="18" height="18"><use href="/assets/icons/sprite.svg#i-ai"></use></svg></span><span class="snav-label">AI ผู้ช่วยแอดมิน</span></button>
+      <button class="snav-item"        data-tab="store"     id="snav-store">   <span class="snav-icon"><svg class="ic" width="18" height="18"><use href="/assets/icons/sprite.svg#i-store"></use></svg></span><span class="snav-label">ร้านค้า &amp; แคมเปญ</span></button>
+      <button class="snav-item"        data-tab="audit"     id="snav-audit">    <span class="snav-icon"><svg class="ic" width="18" height="18"><use href="/assets/icons/sprite.svg#i-journal"></use></svg></span><span class="snav-label">ประวัติบันทึก</span></button>
+      <a class="snav-item" href="/help.html#admin" style="text-decoration:none;color:inherit;"><span class="snav-icon"><svg class="ic" width="18" height="18"><use href="/assets/icons/sprite.svg#i-book"></use></svg></span><span class="snav-label">คู่มือแอดมิน</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <span style="font-size:0.8rem;color:#64748B;">Admin Portal</span>
+      <span class="sidebar-footer-role"><svg class="ic" width="14" height="14"><use href="/assets/icons/sprite.svg#i-lock"></use></svg> Root Admin</span>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <main class="admin-main">
+
+    <!-- ── OVERVIEW ── -->
+    <section id="panel-overview" class="admin-panel active">
+      <div class="panel-header">
+        <div>
+          <h1 style="margin-bottom:0.25rem;display:flex;align-items:center;gap:0.5rem;"><svg class="ic" width="24" height="24"><use href="/assets/icons/sprite.svg#i-chart"></use></svg> ภาพรวมระบบ (System Overview)</h1>
+          <p style="margin:0;color:#64748B;font-size:0.9rem;">แดชบอร์ดสรุปสถานะสถานที่ เควสท์ สมาชิก การเช็คอิน และโทเคนทั้งหมดในระบบ</p>
+        </div>
+        <div style="display:flex;gap:0.5rem;align-items:center;">
+          <a href="/help.html#admin" class="btn btn-small btn-secondary" style="text-decoration:none;"><svg class="ic" width="15" height="15"><use href="/assets/icons/sprite.svg#i-book"></use></svg> คู่มือแอดมิน</a>
+          <button class="btn btn-small btn-secondary" id="btn-refresh-stats" type="button"><svg class="ic" width="14" height="14"><use href="/assets/icons/sprite.svg#i-filter"></use></svg> รีเฟรชข้อมูล</button>
+        </div>
+      </div>
+      <div class="stats-grid-big">
+        <div class="stat-big stat-green">  <div class="stat-big-icon"><svg class="ic" width="28" height="28"><use href="/assets/icons/sprite.svg#i-pin"></use></svg></div><div class="stat-big-val" id="stat-places">—</div><div class="stat-big-label">สถานที่เผยแพร่</div></div>
+        <div class="stat-big stat-blue">   <div class="stat-big-icon"><svg class="ic" width="28" height="28"><use href="/assets/icons/sprite.svg#i-quest"></use></svg></div><div class="stat-big-val" id="stat-quests">—</div><div class="stat-big-label">เควสท์เปิดให้เล่น</div></div>
+        <div class="stat-big stat-purple"> <div class="stat-big-icon"><svg class="ic" width="28" height="28"><use href="/assets/icons/sprite.svg#i-user"></use></svg></div><div class="stat-big-val" id="stat-users">—</div><div class="stat-big-label">ผู้ใช้งานทั้งหมด</div></div>
+        <div class="stat-big stat-gold">   <div class="stat-big-icon"><svg class="ic" width="28" height="28"><use href="/assets/icons/sprite.svg#i-trophy"></use></svg></div><div class="stat-big-val" id="stat-completions">—</div><div class="stat-big-label">การเช็คอินสำเร็จ</div></div>
+        <div class="stat-big stat-orange"> <div class="stat-big-icon"><svg class="ic" width="28" height="28"><use href="/assets/icons/sprite.svg#i-coin"></use></svg></div><div class="stat-big-val" id="stat-tokens-total">—</div><div class="stat-big-label">โทเคนที่แจกไป</div></div>
+        <div class="stat-big stat-red">    <div class="stat-big-icon"><svg class="ic" width="28" height="28"><use href="/assets/icons/sprite.svg#i-close"></use></svg></div><div class="stat-big-val" id="stat-blocked">—</div><div class="stat-big-label">ผู้ใช้ที่ถูกบล็อก</div></div>
+        <div class="stat-big stat-gold">   <div class="stat-big-icon"><svg class="ic" width="28" height="28"><use href="/assets/icons/sprite.svg#i-store"></use></svg></div><div class="stat-big-val" id="stat-partner-pending">—</div><div class="stat-big-label">คิวผู้ประกอบการรอตรวจ</div></div>
+      </div>
+      <div class="overview-recent">
+        <div class="recent-card">
+          <h3 style="display:flex;align-items:center;gap:0.4rem;"><svg class="ic" width="18" height="18"><use href="/assets/icons/sprite.svg#i-clock"></use></svg> การเช็คอินเควสท์ล่าสุด</h3>
+          <div id="recent-checkins"><div style="padding:1rem;color:#64748B;">กำลังโหลดข้อมูล...</div></div>
+        </div>
+        <div class="recent-card">
+          <h3 style="display:flex;align-items:center;gap:0.4rem;"><svg class="ic" width="18" height="18"><use href="/assets/icons/sprite.svg#i-user"></use></svg> สมาชิกใหม่ล่าสุด</h3>
+          <div id="recent-users-list"><div style="padding:1rem;color:#64748B;">กำลังโหลดข้อมูล...</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PLACES ── -->
+    <section id="panel-places" class="admin-panel">
+      <div class="panel-header">
+        <div>
+          <h1 style="margin-bottom:0.25rem;display:flex;align-items:center;gap:0.5rem;"><svg class="ic" width="22" height="22"><use href="/assets/icons/sprite.svg#i-pin"></use></svg> จัดการและปักหมุดสถานที่ (Places)</h1>
+          <p style="margin:0;color:#64748B;font-size:0.9rem;">สร้าง แก้ไข และปักหมุดสถานที่ท่องเที่ยวทั่วไทย กำหนดพิกัด GPS ละติจูด/ลองจิจูด และรัศมีการเช็คอิน</p>
+        </div>
+        <button class="btn" id="btn-new-place" type="button"><svg class="ic" width="16" height="16"><use href="/assets/icons/sprite.svg#i-plus"></use></svg> ปักสถานที่ใหม่</button>
+      </div>
+      <div class="toolbar">
+        <input id="place-search" type="search" placeholder="ค้นหาชื่อสถานที่ หรือประเภท..." maxlength="80" class="toolbar-input">
+        <select id="place-status-filter" class="toolbar-select">
+          <option value="">ทุกสถานะ</option>
+          <option value="published">เผยแพร่แล้ว</option>
+          <option value="draft">ร่าง</option>
+          <option value="archived">เก็บถาวร</option>
+        </select>
+      </div>
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr><th>รูป</th><th>ชื่อสถานที่</th><th>หมวดหมู่</th><th>จังหวัด / ที่อยู่</th><th>พิกัด GPS</th><th>สถานะ</th><th>การจัดการ</th></tr>
+          </thead>
+          <tbody id="places-tbody"><tr><td colspan="7">กำลังโหลดสถานที่...</td></tr></tbody>
+        </table>
+      </div>
+      <div id="places-pagination" class="pagination"></div>
+    </section>
+
+    <!-- ── QUESTS ── -->
+    <section id="panel-quests" class="admin-panel">
+      <div class="panel-header">
+        <div>
+          <h1 style="margin-bottom:0.25rem;display:flex;align-items:center;gap:0.5rem;"><svg class="ic" width="22" height="22"><use href="/assets/icons/sprite.svg#i-quest"></use></svg> จัดการเควสท์และภารกิจ (Quests)</h1>
+          <p style="margin:0;color:#64748B;font-size:0.9rem;">สร้างภารกิจประจำสถานที่ รองรับทั้ง Quiz, รหัสลับเช็คอิน, และถ่ายภาพพร้อมตรวจสอบตำแหน่ง GPS</p>
+        </div>
+        <button class="btn" id="btn-new-quest" type="button"><svg class="ic" width="16" height="16"><use href="/assets/icons/sprite.svg#i-plus"></use></svg> เพิ่มเควสท์ใหม่</button>
+      </div>
+      <div class="toolbar">
+        <input id="quest-search" type="search" placeholder="ค้นหาเควสท์..." maxlength="80" class="toolbar-input">
+        <select id="quest-diff-filter" class="toolbar-select">
+          <option value="">ทุกระดับความยาก</option>
+          <option value="easy">ง่าย (Easy)</option>
+          <option value="medium">ปานกลาง (Medium)</option>
+          <option value="hard">ยาก (Hard)</option>
+        </select>
+        <select id="quest-status-filter" class="toolbar-select">
+          <option value="">ทุกสถานะ</option>
+          <option value="published">เผยแพร่แล้ว</option>
+          <option value="draft">ร่าง</option>
+          <option value="archived">เก็บถาวร</option>
+        </select>
+      </div>
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr><th>เควสท์</th><th>ประเภทภารกิจ</th><th>ระดับ</th><th>รางวัลโทเคน</th><th>สถานที่เชื่อมโยง</th><th>สถานะ</th><th>การจัดการ</th></tr>
+          </thead>
+          <tbody id="quests-tbody"><tr><td colspan="7">กำลังโหลดเควสท์...</td></tr></tbody>
+        </table>
+      </div>
+      <div id="quests-pagination" class="pagination"></div>
+    </section>
+
+    <!-- ── PARTNERS ── -->
+    <section id="panel-partners" class="admin-panel">
+      <div class="panel-header">
+        <div>
+          <h1 style="margin-bottom:0.25rem;display:flex;align-items:center;gap:0.5rem;"><svg class="ic" width="22" height="22"><use href="/assets/icons/sprite.svg#i-store"></use></svg> จัดการผู้ประกอบการ &amp; อนุมัติ (Partner &amp; Approvals)</h1>
+          <p style="margin:0;color:#64748B;font-size:0.9rem;">ตรวจสอบใบสมัคร อนุมัติสถานที่ เควสท์ แคมเปญ และตัวละครที่ผู้ประกอบการส่งเข้ามา</p>
+        </div>
+        <button class="btn btn-small btn-secondary" id="btn-refresh-partners" type="button"><svg class="ic" width="14" height="14"><use href="/assets/icons/sprite.svg#i-filter"></use></svg> รีเฟรช</button>
+      </div>
+
+      <!-- Partner Stats Grid -->
+      <div class="stats-grid-big" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr));margin-bottom:1.5rem;">
+        <div class="stat-big stat-blue"><div class="stat-big-icon"><svg class="ic" width="24" height="24"><use href="/assets/icons/sprite.svg#i-store"></use></svg></div><div class="stat-big-val" id="ps-total-apps">—</div><div class="stat-big-label">ใบสมัครทั้งหมด</div></div>
+        <div class="stat-big stat-gold"><div class="stat-big-icon"><svg class="ic" width="24" height="24"><use href="/assets/icons/sprite.svg#i-clock"></use></svg></div><div class="stat-big-val" id="ps-pending-apps">—</div><div class="stat-big-label">ใบสมัครรอตรวจ</div></div>
+        <div class="stat-big stat-green"><div class="stat-big-icon"><svg class="ic" width="24" height="24"><use href="/assets/icons/sprite.svg#i-check-circle"></use></svg></div><div class="stat-big-val" id="ps-approved-apps">—</div><div class="stat-big-label">อนุมัติแล้ว</div></div>
+        <div class="stat-big stat-red"><div class="stat-big-icon"><svg class="ic" width="24" height="24"><use href="/assets/icons/sprite.svg#i-pin"></use></svg></div><div class="stat-big-val" id="ps-pending-places">—</div><div class="stat-big-label">สถานที่รอตรวจ</div></div>
+        <div class="stat-big stat-orange"><div class="stat-big-icon"><svg class="ic" width="24" height="24"><use href="/assets/icons/sprite.svg#i-quest"></use></svg></div><div class="stat-big-val" id="ps-pending-quests">—</div><div class="stat-big-label">เควสท์รอตรวจ</div></div>
+        <div class="stat-big stat-purple"><div class="stat-big-icon"><svg class="ic" width="24" height="24"><use href="/assets/icons/sprite.svg#i-trophy"></use></svg></div><div class="stat-big-val" id="ps-pending-campaigns">—</div><div class="stat-big-label">แคมเปญรอตรวจ</div></div>
+        <div class="stat-big stat-gold"><div class="stat-big-icon">🧸</div><div class="stat-big-val" id="ps-pending-characters">—</div><div class="stat-big-label">ตัวละครรอตรวจ</div></div>
+      </div>
+
+      <!-- Subtabs -->
+      <div style="display:flex;gap:0;border-bottom:2px solid #E2E8F0;margin-bottom:1.25rem;overflow-x:auto;">
+        <button class="ptab-btn active" data-ptab="applications" style="padding:0.7rem 1.1rem;border:none;background:none;font:600 0.9rem/1 inherit;color:#64748B;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;"><svg class="ic" width="14" height="14"><use href="/assets/icons/sprite.svg#i-journal"></use></svg> ใบสมัคร</button>
+        <button class="ptab-btn" data-ptab="pending-places" style="padding:0.7rem 1.1rem;border:none;background:none;font:600 0.9rem/1 inherit;color:#64748B;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;"><svg class="ic" width="14" height="14"><use href="/assets/icons/sprite.svg#i-pin"></use></svg> สถานที่รอตรวจ</button>
+        <button class="ptab-btn" data-ptab="pending-quests" style="padding:0.7rem 1.1rem;border:none;background:none;font:600 0.9rem/1 inherit;color:#64748B;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;"><svg class="ic" width="14" height="14"><use href="/assets/icons/sprite.svg#i-quest"></use></svg> เควสท์รอตรวจ</button>
+        <button class="ptab-btn" data-ptab="pending-campaigns" style="padding:0.7rem 1.1rem;border:none;background:none;font:600 0.9rem/1 inherit;color:#64748B;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;"><svg class="ic" width="14" height="14"><use href="/assets/icons/sprite.svg#i-trophy"></use></svg> แคมเปญรอตรวจ <span id="ps-pending-campaigns-badge" style="background:#EF4444;color:#fff;border-radius:9999px;padding:1px 6px;font-size:0.7rem;margin-left:4px;display:none;">0</span></button>
+        <button class="ptab-btn" data-ptab="pending-characters" style="padding:0.7rem 1.1rem;border:none;background:none;font:600 0.9rem/1 inherit;color:#64748B;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;">🧸 ตัวละครรอตรวจ <span id="ps-pending-characters-badge" style="background:#EF4444;color:#fff;border-radius:9999px;padding:1px 6px;font-size:0.7rem;margin-left:4px;display:none;">0</span></button>
+        <button class="ptab-btn" data-ptab="partner-checkins" style="padding:0.7rem 1.1rem;border:none;background:none;font:600 0.9rem/1 inherit;color:#64748B;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;"><svg class="ic" width="14" height="14"><use href="/assets/icons/sprite.svg#i-chart"></use></svg> สถิติเช็คอิน</button>
+      </div>
+
+      <!-- Tab Content Panels -->
+      <div id="ptab-applications">
+        <div id="admin-partner-apps-list"><p style="color:#64748B;">กำลังโหลดใบสมัคร...</p></div>
+      </div>
+      <div id="ptab-pending-places" style="display:none;">
+        <div id="admin-pending-places-list"><p style="color:#64748B;">กำลังโหลดสถานที่...</p></div>
+      </div>
+      <div id="ptab-pending-quests" style="display:none;">
+        <div id="admin-pending-quests-list"><p style="color:#64748B;">กำลังโหลดเควสท์...</p></div>
+      </div>
+      <div id="ptab-pending-campaigns" style="display:none;">
+        <div id="admin-pending-campaigns-list"><p style="color:#64748B;">กำลังโหลดแคมเปญ...</p></div>
+      </div>
+      <div id="ptab-pending-characters" style="display:none;">
+        <div id="admin-pending-characters-list"><p style="color:#64748B;">กำลังโหลดตัวละคร...</p></div>
+      </div>
+      <div id="ptab-partner-checkins" style="display:none;">
+        <div id="admin-partner-checkins-list"><p style="color:#64748B;">กำลังโหลดสถิติ...</p></div>
+      </div>
+    </section>
+
+    <!-- ── USERS ── -->
+    <section id="panel-users" class="admin-panel">
+      <div class="panel-header">
+        <div>
+          <h1 style="margin-bottom:0.25rem;display:flex;align-items:center;gap:0.5rem;"><svg class="ic" width="22" height="22"><use href="/assets/icons/sprite.svg#i-user"></use></svg> จัดการผู้ใช้ &amp; บล็อกบัญชี (User Management)</h1>
+          <p style="margin:0;color:#64748B;font-size:0.9rem;">ดูรายชื่อสมาชิก ปรับยอดเหรียญโทเคน บล็อก/ปลดบล็อกบัญชี และสร้างบัญชีผู้ใช้งานใหม่</p>
+        </div>
+        <button class="btn" id="btn-new-user" type="button"><svg class="ic" width="16" height="16"><use href="/assets/icons/sprite.svg#i-plus"></use></svg> สร้างบัญชีใหม่</button>
+      </div>
+      <div class="toolbar">
+        <input id="user-search" type="search" placeholder="ค้นหาชื่อผู้ใช้ หรืออีเมล..." maxlength="100" class="toolbar-input">
+        <select id="user-status-filter" class="toolbar-select">
+          <option value="">ทุกสถานะ</option>
+          <option value="active">ปกติ (Active)</option>
+          <option value="banned">ถูกบล็อก (Banned)</option>
+        </select>
+        <select id="user-role-filter" class="toolbar-select">
+          <option value="">ทุกบทบาท</option>
+          <option value="user">ผู้ใช้ทั่วไป (User)</option>
+          <option value="partner">ผู้ประกอบการ (Partner)</option>
+          <option value="admin">ผู้ดูแลระบบ (Admin)</option>
+        </select>
+      </div>
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr><th>ชื่อผู้ใช้</th><th>อีเมล</th><th>บทบาท</th><th>โทเคนสะสม</th><th>สถานะบัญชี</th><th>สร้างเมื่อ</th><th>การจัดการ</th></tr>
+          </thead>
+          <tbody id="users-tbody"><tr><td colspan="7">กำลังโหลดข้อมูลผู้ใช้...</td></tr></tbody>
+        </table>
+      </div>
+      <div id="users-pagination" class="pagination"></div>
+    </section>
+
+    <!-- ── TOKENS ── -->
+    <section id="panel-tokens" class="admin-panel">
+      <div class="panel-header">
+        <div>
+          <h1 style="margin-bottom:0.25rem;display:flex;align-items:center;gap:0.5rem;"><svg class="ic" width="22" height="22"><use href="/assets/icons/sprite.svg#i-coin"></use></svg> รายงานและการใช้โทเคน (Token Analytics)</h1>
+          <p style="margin:0;color:#64748B;font-size:0.9rem;">ติดตามการหมุนเวียนของเหรียญโทเคน ตรวจสอบกระดานผู้นำ และประวัติการรับรางวัลจากเควสท์</p>
+        </div>
+        <button class="btn btn-small btn-secondary" id="btn-refresh-tokens" type="button"><svg class="ic" width="14" height="14"><use href="/assets/icons/sprite.svg#i-filter"></use></svg> รีเฟรช</button>
+      </div>
+      <div class="token-summary-grid">
+        <div class="token-stat-card"><div class="token-stat-icon"><svg class="ic" width="22" height="22"><use href="/assets/icons/sprite.svg#i-coin"></use></svg></div><div class="token-stat-val" id="tok-total">—</div><div class="token-stat-label">โทเคนแจกสะสมทั้งหมด</div></div>
+        <div class="token-stat-card"><div class="token-stat-icon"><svg class="ic" width="22" height="22"><use href="/assets/icons/sprite.svg#i-user"></use></svg></div><div class="token-stat-val" id="tok-avg">—</div><div class="token-stat-label">ค่าเฉลี่ยต่อผู้ใช้</div></div>
+        <div class="token-stat-card"><div class="token-stat-icon"><svg class="ic" width="22" height="22"><use href="/assets/icons/sprite.svg#i-trophy"></use></svg></div><div class="token-stat-val" id="tok-max-user">—</div><div class="token-stat-label">ผู้สะสมโทเคนสูงสุด</div></div>
+        <div class="token-stat-card"><div class="token-stat-icon"><svg class="ic" width="22" height="22"><use href="/assets/icons/sprite.svg#i-quest"></use></svg></div><div class="token-stat-val" id="tok-top-quest">—</div><div class="token-stat-label">เควสท์ที่แจกโทเคนมากสุด</div></div>
+      </div>
+      <h3 class="section-sub-title" style="display:flex;align-items:center;gap:0.4rem;"><svg class="ic" width="18" height="18"><use href="/assets/icons/sprite.svg#i-trophy"></use></svg> อันดับผู้ใช้ที่มีโทเคนสะสมสูงสุด (Token Leaderboard)</h3>
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th>อันดับ</th><th>ผู้ใช้</th><th>อีเมล</th><th>โทเคนคงเหลือ</th><th>เควสท์ที่สำเร็จ</th></tr></thead>
+          <tbody id="token-leaderboard"><tr><td colspan="5">กำลังโหลดอันดับ...</td></tr></tbody>
+        </table>
+      </div>
+      <h3 class="section-sub-title" style="margin-top:1.5rem;display:flex;align-items:center;gap:0.4rem;"><svg class="ic" width="18" height="18"><use href="/assets/icons/sprite.svg#i-journal"></use></svg> ประวัติการรับโทเคนล่าสุด (Recent Token Activity)</h3>
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th>ผู้รับ</th><th>ภารกิจ / เควสท์</th><th>จำนวนโทเคน</th><th>วัน-เวลา</th></tr></thead>
+          <tbody id="token-history"><tr><td colspan="4">กำลังโหลดประวัติ...</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── AI ASSISTANT ── -->
+    <section id="panel-ai" class="admin-panel">
+      <div class="panel-header">
+        <div>
+          <h1 style="margin-bottom:0.25rem;display:flex;align-items:center;gap:0.5rem;"><svg class="ic" width="22" height="22"><use href="/assets/icons/sprite.svg#i-ai"></use></svg> AI ผู้ช่วยแอดมิน (Admin AI Assistant)</h1>
+          <p style="margin:0;color:#64748B;font-size:0.9rem;">สนทนากับ AI เพื่อถามข้อมูลสถิติ สรุปภาพรวม หรือสั่งให้ร่างเควสท์และสถานที่ท่องเที่ยวใหม่ได้ทันที</p>
+        </div>
+        <button class="btn btn-small btn-secondary" id="btn-clear-chat" type="button"><svg class="ic" width="14" height="14"><use href="/assets/icons/sprite.svg#i-trash"></use></svg> ล้างการสนทนา</button>
+      </div>
+      <div class="ai-chat-layout">
+        <div class="ai-suggestions">
+          <p class="ai-suggest-title">คำถามด่วนที่ใช้บ่อย:</p>
+          <button class="ai-suggest-chip" data-q="สรุปสถิติระบบและรายงานความคืบหน้าให้หน่อย"><svg class="ic" width="14" height="14"><use href="/assets/icons/sprite.svg#i-chart"></use></svg> สรุปสถิติระบบวันนี้</button>
+          <button class="ai-suggest-chip" data-q="แนะนำเควสท์ถ่ายรูปเช็คอินใหม่ๆ 3 จุดในกรุงเทพ พร้อมพิกัด"><svg class="ic" width="14" height="14"><use href="/assets/icons/sprite.svg#i-camera"></use></svg> แนะนำเควสท์ถ่ายรูปใหม่</button>
+          <button class="ai-suggest-chip" data-q="แนะนำสถานที่ท่องเที่ยวเชิงวัฒนธรรมที่น่าปักหมุดเพิ่มในระบบ"><svg class="ic" width="14" height="14"><use href="/assets/icons/sprite.svg#i-pin"></use></svg> แนะนำสถานที่น่าปักหมุด</button>
+          <button class="ai-suggest-chip" data-q="ช่วยร่างคำอธิบายเควสท์ถ่ายรูปคู่กับยักษ์วัดแจ้ง (วัดอรุณ)"><svg class="ic" width="14" height="14"><use href="/assets/icons/sprite.svg#i-edit"></use></svg> ช่วยเขียนคำอธิบายเควสท์</button>
+          <button class="ai-suggest-chip" data-q="มีแนวทางแนะนำสำหรับคำนวณและตั้งรางวัลโทเคนอย่างไรให้สมดุล"><svg class="ic" width="14" height="14"><use href="/assets/icons/sprite.svg#i-coin"></use></svg> แนะนำการตั้งรางวัลโทเคน</button>
+          <button class="ai-suggest-chip" data-q="กรณีพบผู้ใช้ทุจริตการเช็คอิน ควรมีมาตรการอย่างไร"><svg class="ic" width="14" height="14"><use href="/assets/icons/sprite.svg#i-warning"></use></svg> นโยบายจัดการผู้ใช้ปัญหา</button>
+          <button class="ai-suggest-chip" data-q="กรุงเทพฯ มีเทศกาลท่องเที่ยวอะไรน่าสนใจในช่วงนี้บ้าง"><svg class="ic" width="14" height="14"><use href="/assets/icons/sprite.svg#i-calendar"></use></svg> เทศกาลท่องเที่ยวน่าสนใจ</button>
+        </div>
+        <div class="ai-chat-window">
+          <div class="ai-messages" id="ai-messages">
+            <div class="ai-msg ai-msg-bot">
+              <div class="ai-avatar"><svg class="ic" width="18" height="18"><use href="/assets/icons/sprite.svg#i-ai"></use></svg></div>
+              <div class="ai-bubble">
+                <p><strong>สวัสดีครับแอดมิน! ผมคือ AI ผู้ช่วยแอดมิน (GPT-OSS)</strong></p>
+                <p>ผมพร้อมช่วยงานบริหารจัดการระบบ และตอบคำถามทั่วไปได้ทุกเรื่องครับ เช่น:</p>
+                <ul>
+                  <li>วิเคราะห์และสรุปข้อมูลสถิติในระบบ</li>
+                  <li>คิดไอเดียเควสท์ใหม่พร้อมพิกัด GPS</li>
+                  <li>แนะนำสถานที่ท่องเที่ยวและจุดแลนด์มาร์ค</li>
+                  <li>ร่างคำอธิบายเควสท์ / สถานที่</li>
+                  <li>ถามตอบทั่วไปเกี่ยวกับประเทศไทยและการท่องเที่ยว</li>
+                </ul>
+                <p>พิมพ์ถามหรือกดปุ่มคำถามด่วนด้านซ้ายได้เลยครับ!</p>
+              </div>
+            </div>
+          </div>
+          <form class="ai-input-row" id="ai-form">
+            <input type="text" id="ai-input" placeholder="พิมพ์คำถาม หรือขอให้ AI ช่วยคิดเควสท์..." maxlength="1000" autocomplete="off">
+            <button type="submit" class="ai-send-btn" id="ai-send" title="ส่งคำถาม" aria-label="ส่งคำถาม"><svg class="ic" width="16" height="16"><use href="/assets/icons/sprite.svg#i-arrow-right"></use></svg></button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── STORE & CAMPAIGNS ── -->
+    <section id="panel-store" class="admin-panel">
+      <div class="panel-header">
+        <div>
+          <h1 style="margin-bottom:0.25rem;display:flex;align-items:center;gap:0.5rem;"><svg class="ic" width="22" height="22"><use href="/assets/icons/sprite.svg#i-store"></use></svg> ร้านค้าตัวละคร &amp; แคมเปญ</h1>
+          <p style="margin:0;color:#64748B;font-size:0.9rem;">อนุมัติแคมเปญของผู้ประกอบการ ตรวจสลิปและคำสั่งซื้อ ตรวจตัวละค 3D และตั้งราคาขึ้นร้านค้า</p>
+        </div>
+        <button class="btn btn-small btn-secondary" id="btn-refresh-store" type="button">รีเฟรช</button>
+      </div>
+
+      <div class="add-card" style="margin-bottom:1rem;">
+        <div class="add-card-header"><span class="add-card-title">⚙️ ตั้งค่าร้านค้า</span></div>
+        <div class="pf-grid pf-grid-2">
+          <div class="pf-field"><label class="pf-label">ราคาต่อตัว (บาท)</label><input id="ss-price" class="pf-input" type="number" min="1"></div>
+          <div class="pf-field"><label class="pf-label">หมายเหตุการชำระเงิน</label><input id="ss-note" class="pf-input" maxlength="300"></div>
+          <div class="pf-field"><label class="pf-label">QR สำหรับโอนเงิน (รูป)</label><input id="ss-qr" class="pf-input" type="file" accept="image/jpeg,image/png,image/webp"></div>
+          <div class="pf-field"><label class="pf-label">ไฟล์ต้นแบบ 3D</label><input id="ss-template" class="pf-input" type="file" accept=".glb,.gltf,.fbx,.obj,.zip"></div>
+        </div>
+        <button class="btn btn-small" id="ss-save" type="button">บันทึกการตั้งค่า</button>
+        <div id="ss-msg" style="margin-top:0.5rem;"></div>
+      </div>
+
+      <div class="add-card" style="margin-bottom:1rem;">
+        <div class="add-card-header"><span class="add-card-title">📣 สร้างแคมเปญ (แอดมิน)</span></div>
+        <form id="ac-form" novalidate>
+          <div class="pf-grid pf-grid-2">
+            <div class="pf-field" style="grid-column:1/-1"><label class="pf-label">ชื่อแคมเปญ *</label><input id="ac-title" class="pf-input" maxlength="200" required></div>
+            <div class="pf-field" style="grid-column:1/-1"><label class="pf-label">รายละเอียด</label><textarea id="ac-desc" class="pf-textarea" maxlength="1000"></textarea></div>
+            <div class="pf-field"><label class="pf-label">เริ่ม</label><input id="ac-start" class="pf-input" type="datetime-local"></div>
+            <div class="pf-field"><label class="pf-label">สิ้นสุด</label><input id="ac-end" class="pf-input" type="datetime-local"></div>
+          </div>
+          <button class="btn btn-small" type="submit">สร้างแคมเปญ</button>
+        </form>
+      </div>
+
+      <h3 class="section-sub-title">แคมเปญรออนุมัติ</h3>
+      <div id="store-campaigns" class="table-wrap"></div>
+
+      <h3 class="section-sub-title" style="margin-top:1.5rem;">คำสั่งซื้อ (สลิป)</h3>
+      <div id="store-orders" class="table-wrap"></div>
+
+      <h3 class="section-sub-title" style="margin-top:1.5rem;">ตัวละครรอตรวจ</h3>
+      <div id="store-designs" class="table-wrap"></div>
+
+      <h3 class="section-sub-title" style="margin-top:1.5rem;">เพิ่มตัวละครเข้าร้านค้า</h3>
+      <div class="add-card">
+        <form id="sc-form" novalidate>
+          <div class="pf-grid pf-grid-2">
+            <div class="pf-field"><label class="pf-label">ชื่อตัวละคร *</label><input id="sc-name" class="pf-input" maxlength="80" required></div>
+            <div class="pf-field"><label class="pf-label">แคมเปญ *</label><select id="sc-campaign" class="pf-select"></select></div>
+            <div class="pf-field"><label class="pf-label">ตัวคูณโทเคน</label>
+              <select id="sc-mult" class="pf-select"><option value="2">×2</option><option value="3">×3</option><option value="4">×4</option><option value="5">×5</option></select></div>
+            <div class="pf-field"><label class="pf-label">ราคาโทเคน *</label><input id="sc-price" class="pf-input" type="number" min="1" required></div>
+            <div class="pf-field" style="grid-column:1/-1"><label class="pf-label">คำอธิบาย</label><textarea id="sc-desc" class="pf-textarea" maxlength="500"></textarea></div>
+            <div class="pf-field"><label class="pf-label">รูปตัวอย่าง *</label><input id="sc-preview" class="pf-input" type="file" accept="image/jpeg,image/png,image/webp"></div>
+            <div class="pf-field"><label class="pf-label">ไฟล์โมเดล 3D *</label><input id="sc-model" class="pf-input" type="file" accept=".glb,.gltf,.fbx,.obj,.zip"></div>
+          </div>
+          <button class="btn btn-small" type="submit">เพิ่มเข้าร้านค้า</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ── AUDIT ── -->
+    <section id="panel-audit" class="admin-panel">
+      <div class="panel-header">
+        <h1 style="display:flex;align-items:center;gap:0.5rem;"><svg class="ic" width="22" height="22"><use href="/assets/icons/sprite.svg#i-journal"></use></svg> บันทึกการทำงานของผู้ดูแล (Audit Log)</h1>
+        <button class="btn btn-small btn-secondary" id="btn-refresh-audit" type="button"><svg class="ic" width="14" height="14"><use href="/assets/icons/sprite.svg#i-filter"></use></svg> รีเฟรช</button>
+      </div>
+      <div id="audit-log">กำลังโหลด...</div>
+    </section>
+
+
+
+  </main>
+</div>
+
+<!-- =====================================================================
+     MODALS
+     ===================================================================== -->
+
+<!-- 1. Place Modal (Add / Edit / Pin) -->
+<dialog id="place-modal" class="admin-modal">
+  <h2 id="place-modal-title" style="display:flex;align-items:center;gap:0.4rem;"><svg class="ic" width="20" height="20"><use href="/assets/icons/sprite.svg#i-pin"></use></svg> ปักสถานที่ใหม่</h2>
+  <div id="place-modal-msg" class="alert" hidden></div>
+  <form id="place-form">
+    <input type="hidden" id="pm-id">
+    <div class="modal-grid-2">
+      <div class="form-field">
+        <label>ชื่อสถานที่ *</label>
+        <input type="text" id="pm-name" required placeholder="เช่น วัดอรุณราชวราราม">
+      </div>
+      <div class="form-field">
+        <label>หมวดหมู่ *</label>
+        <select id="pm-category" required></select>
+      </div>
+    </div>
+    <div class="modal-grid-2">
+      <div class="form-field">
+        <label>จังหวัด *</label>
+        <select id="pm-province" required></select>
+      </div>
+      <div class="form-field">
+        <label>เขต / อำเภอ / ย่าน</label>
+        <input type="text" id="pm-subdistrict" placeholder="เช่น บางกอกใหญ่">
+      </div>
+    </div>
+    <div class="modal-grid-2">
+      <div class="form-field">
+        <label>Latitude (ละติจูด) *</label>
+        <input type="number" id="pm-lat" step="any" required placeholder="13.7437">
+      </div>
+      <div class="form-field">
+        <label>Longitude (ลองจิจูด) *</label>
+        <input type="number" id="pm-lng" step="any" required placeholder="100.4889">
+      </div>
+    </div>
+    <div style="margin-bottom:1rem;">
+      <button type="button" class="btn btn-secondary btn-small" id="btn-pick-place-map"><svg class="ic" width="15" height="15"><use href="/assets/icons/sprite.svg#i-map"></use></svg> จิ้มปักหมุดบนแผนที่ Interactive</button>
+    </div>
+    <div class="modal-grid-2">
+      <div class="form-field">
+        <label>เวลาเปิด-ปิด</label>
+        <input type="text" id="pm-hours" placeholder="เช่น ทุกวัน 08:00 - 18:00 น.">
+      </div>
+      <div class="form-field">
+        <label>ค่าเข้าชม</label>
+        <input type="text" id="pm-fee" placeholder="เช่น คนไทยฟรี, ต่างชาติ 100 บาท">
+      </div>
+    </div>
+    <div class="form-field">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;">
+        <label style="font-weight:700;margin:0;">รูปภาพสถานที่ (อัปโหลดไฟล์รูปภาพ ได้สูงสุด 4 รูป)</label>
+        <span id="pm-images-counter" style="font-size:0.85rem;font-weight:700;color:#059669;background:#ECFDF5;padding:0.2rem 0.6rem;border-radius:20px;">0 / 4 รูป</span>
+      </div>
+
+      <!-- Preview Grid of Selected Images -->
+      <div id="pm-previews-grid" class="image-previews-grid" style="display:none;"></div>
+
+      <!-- Upload Dropzone -->
+      <div id="pm-dropzone" class="image-uploader-box">
+        <input type="file" id="pm-file-input" accept="image/jpeg,image/png,image/webp" multiple style="display:none;">
+        <span class="uploader-icon"><svg class="ic" width="36" height="36"><use href="/assets/icons/sprite.svg#i-camera"></use></svg></span>
+        <div class="uploader-title" id="pm-dropzone-title">คลิกเพื่อเลือกไฟล์รูปภาพ หรือลากรูปมาวางที่นี่</div>
+        <div class="uploader-hint" id="pm-dropzone-hint">รองรับไฟล์ JPG, PNG, WEBP (สูงสุด 4 รูป • รูปแรกจะเป็นภาพหน้าปก)</div>
+      </div>
+
+      <!-- Optional URL addition toggle -->
+      <div style="margin-top:0.35rem;">
+        <details style="font-size:0.85rem;color:#64748B;">
+          <summary style="cursor:pointer;user-select:none;display:inline-flex;align-items:center;gap:0.35rem;"><svg class="ic" width="14" height="14"><use href="/assets/icons/sprite.svg#i-external"></use></svg> หรือเพิ่มรูปภาพด้วยลิงก์ URL</summary>
+          <div style="display:flex;gap:0.5rem;margin-top:0.4rem;">
+            <input type="url" id="pm-url-input" placeholder="https://images.unsplash.com/..." style="flex:1;font-size:0.85rem;padding:0.4rem 0.65rem;">
+            <button type="button" class="btn btn-secondary btn-small" id="btn-add-img-url">+ เพิ่มรูปจาก URL</button>
+          </div>
+        </details>
+      </div>
+      <input type="hidden" id="pm-cover">
+    </div>
+    <div class="form-field">
+      <label>คำอธิบายภาพรวมสถานที่ (Summary / Overview) *</label>
+      <textarea id="pm-desc" rows="3" required placeholder="สรุปภาพรวม จุดเด่นของสถานที่ สำหรับแสดงในการ์ดและหน้ารายการ..."></textarea>
+    </div>
+    <div class="form-field">
+      <label>ประวัติความเป็นมา (History / Background)</label>
+      <textarea id="pm-history" rows="4" placeholder="ประวัติศาสตร์ความเป็นมา ยุคสมัย การก่อตั้ง ความสำคัญทางวัฒนธรรม..."></textarea>
+    </div>
+    <div class="modal-grid-2">
+      <div class="form-field">
+        <label>ไฮไลท์จุดเด่นห้ามพลาด (Highlights)</label>
+        <input type="text" id="pm-highlights" placeholder="เช่น พระมณฑปสีทอง, ภาพจิตรกรรมฝาผนัง, สตรีทฟู้ดมิชลิน (คั่นด้วย ,)">
+      </div>
+      <div class="form-field">
+        <label>การเดินทาง / คำแนะนำนักท่องเที่ยว</label>
+        <input type="text" id="pm-tips" placeholder="เช่น MRT สถานีสนามไชย ทางออก 1, แต่งกายสุภาพ">
+      </div>
+    </div>
+    <div class="form-field">
+      <label>สถานะ</label>
+      <select id="pm-status">
+        <option value="published">เผยแพร่ทันที (Published)</option>
+        <option value="draft">บันทึกเป็นร่าง (Draft)</option>
+        <option value="archived">เก็บถาวร (Archived)</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-secondary" id="pm-cancel">ยกเลิก</button>
+      <button type="submit" class="btn" id="pm-save"><svg class="ic" width="16" height="16"><use href="/assets/icons/sprite.svg#i-check"></use></svg> บันทึกสถานที่</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- 2. Quest Modal (Add / Edit) -->
+<dialog id="quest-modal" class="admin-modal">
+  <h2 id="quest-modal-title" style="display:flex;align-items:center;gap:0.4rem;"><svg class="ic" width="20" height="20"><use href="/assets/icons/sprite.svg#i-quest"></use></svg> สร้างเควสท์ใหม่</h2>
+  <div id="quest-modal-msg" class="alert" hidden></div>
+  <form id="quest-form">
+    <input type="hidden" id="qm-id">
+    <div class="modal-grid-2">
+      <div class="form-field">
+        <label>ชื่อเควสท์ / ภารกิจ *</label>
+        <input type="text" id="qm-title" required placeholder="เช่น ถ่ายรูปเช็คอินยักษ์วัดแจ้ง">
+      </div>
+      <div class="form-field">
+        <label>สถานที่เชื่อมโยง *</label>
+        <select id="qm-place" required></select>
+      </div>
+    </div>
+    <div class="modal-grid-2">
+      <div class="form-field">
+        <label>ประเภทเควสท์</label>
+        <select id="qm-type">
+          <option value="photo">ถ่ายรูปเช็คอิน (Photo Check-in)</option>
+          <option value="exploration">เช็คอินด้วยพิกัด GPS (GPS Check-in)</option>
+          <option value="culture">ศิลปวัฒนธรรม (Culture)</option>
+          <option value="quiz">ตอบคำถาม (Quiz)</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label>ระดับความยาก</label>
+        <select id="qm-difficulty">
+          <option value="easy">ง่าย (Easy) - รางวัล 25-50 โทเคน</option>
+          <option value="medium">ปานกลาง (Medium) - รางวัล 75-100 โทเคน</option>
+          <option value="hard">ยาก (Hard) - รางวัล 150-200 โทเคน</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-grid-2">
+      <div class="form-field">
+        <label>รางวัลโทเคน (TC Tokens) *</label>
+        <input type="number" id="qm-tokens" min="1" max="1000" value="50" required>
+      </div>
+      <div class="form-field">
+        <label>รัศมีตรวจจับ GPS (เมตร)</label>
+        <input type="number" id="qm-radius" min="10" max="1000" value="100" placeholder="เช่น 100 เมตร">
+      </div>
+    </div>
+    <div class="modal-grid-2">
+      <div class="form-field">
+        <label>Latitude พิกัดภารกิจ</label>
+        <input type="number" id="qm-lat" step="any" placeholder="13.7437">
+      </div>
+      <div class="form-field">
+        <label>Longitude พิกัดภารกิจ</label>
+        <input type="number" id="qm-lng" step="any" placeholder="100.4889">
+      </div>
+    </div>
+    <div style="margin-bottom:1rem;">
+      <button type="button" class="btn btn-secondary btn-small" id="btn-pick-quest-map"><svg class="ic" width="15" height="15"><use href="/assets/icons/sprite.svg#i-map"></use></svg> ปักหมุดพิกัดภารกิจบนแผนที่</button>
+    </div>
+    <div class="form-field">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;">
+        <label style="font-weight:700;margin:0;">รูปภาพประกอบเควสท์ / ภาพถ่ายเป้าหมาย (Quest Photo)</label>
+        <span id="qm-image-counter" style="font-size:0.85rem;font-weight:700;color:#059669;background:#ECFDF5;padding:0.2rem 0.6rem;border-radius:20px;">0 / 1 รูป</span>
+      </div>
+
+      <!-- Preview of Quest Image -->
+      <div id="qm-preview-wrap" class="image-previews-grid" style="display:none;grid-template-columns:minmax(180px, 280px);margin-bottom:0.6rem;"></div>
+
+      <!-- Upload Dropzone -->
+      <div id="qm-dropzone" class="image-uploader-box">
+        <input type="file" id="qm-file-input" accept="image/jpeg,image/png,image/webp" style="display:none;">
+        <span class="uploader-icon"><svg class="ic" width="36" height="36"><use href="/assets/icons/sprite.svg#i-camera"></use></svg></span>
+        <div class="uploader-title" id="qm-dropzone-title">คลิกเพื่ออัปโหลดไฟล์รูป หรือลากรูปมาวางที่นี่</div>
+        <div class="uploader-hint" id="qm-dropzone-hint">รองรับไฟล์ JPG, PNG, WEBP (ภาพเบาะแสหรือมุมมองเป้าหมายของเควสท์)</div>
+      </div>
+
+      <!-- Optional URL fallback -->
+      <div style="margin-top:0.35rem;">
+        <details style="font-size:0.85rem;color:#64748B;">
+          <summary style="cursor:pointer;user-select:none;">หรือใส่รูปภาพด้วยลิงก์ URL</summary>
+          <div style="display:flex;gap:0.5rem;margin-top:0.4rem;">
+            <input type="url" id="qm-url-input" placeholder="https://images.unsplash.com/..." style="flex:1;font-size:0.85rem;padding:0.4rem 0.65rem;">
+            <button type="button" class="btn btn-secondary btn-small" id="btn-add-quest-img-url">+ ใช้รูปจาก URL</button>
+          </div>
+        </details>
+      </div>
+      <input type="hidden" id="qm-photo">
+    </div>
+    <div class="form-field">
+      <label>คำอธิบายภารกิจ &amp; กติกาการเช็คอิน</label>
+      <textarea id="qm-instructions" placeholder="อธิบายจุดที่ต้องไปถ่ายรูป หรือมุมมองที่ต้องการ เพื่อให้ผู้เล่นทำภารกิจสำเร็จ..."></textarea>
+    </div>
+    <div class="form-field">
+      <label>สถานะ</label>
+      <select id="qm-status">
+        <option value="published">เผยแพร่ทันที (Published)</option>
+        <option value="draft">บันทึกเป็นร่าง (Draft)</option>
+        <option value="archived">เก็บถาวร (Archived)</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-secondary" id="qm-cancel">ยกเลิก</button>
+      <button type="submit" class="btn" id="qm-save"><svg class="ic" width="16" height="16"><use href="/assets/icons/sprite.svg#i-check"></use></svg> บันทึกเควสท์</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- 3. User Modal (Create Account) -->
+<dialog id="user-modal" class="admin-modal" style="max-width:520px;">
+  <h2 style="display:flex;align-items:center;gap:0.4rem;"><svg class="ic" width="20" height="20"><use href="/assets/icons/sprite.svg#i-user"></use></svg> สร้างบัญชีผู้ใช้ใหม่</h2>
+  <div id="user-modal-msg" class="alert" hidden></div>
+  <form id="user-form">
+    <div class="form-field">
+      <label>ชื่อที่แสดง (Display Name) *</label>
+      <input type="text" id="um-name" required placeholder="เช่น สมชาย นักเดินทาง">
+    </div>
+    <div class="form-field">
+      <label>อีเมล (Email) *</label>
+      <input type="email" id="um-email" required placeholder="user@example.com">
+    </div>
+    <div class="form-field">
+      <label>รหัสผ่าน (Password) *</label>
+      <input type="password" id="um-pass" required minlength="6" placeholder="อย่างน้อย 6 ตัวอักษร">
+    </div>
+    <div class="modal-grid-2">
+      <div class="form-field">
+        <label>บทบาท (Role)</label>
+        <select id="um-role">
+          <option value="user">ผู้ใช้ทั่วไป (User)</option>
+          <option value="admin">ผู้ดูแลระบบ (Admin)</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label>โทเคนเริ่มต้น</label>
+        <input type="number" id="um-tokens" min="0" max="10000" value="50">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-secondary" id="um-cancel">ยกเลิก</button>
+      <button type="submit" class="btn" id="um-save"><svg class="ic" width="16" height="16"><use href="/assets/icons/sprite.svg#i-plus"></use></svg> สร้างบัญชี</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- 4. Map Picker Dialog -->
+<dialog id="map-picker-dialog" class="admin-modal" style="max-width:720px;">
+  <h2 style="margin-bottom:0.35rem;display:flex;align-items:center;gap:0.4rem;"><svg class="ic" width="20" height="20"><use href="/assets/icons/sprite.svg#i-map"></use></svg> เลือกตำแหน่งบนแผนที่ (Pin Location)</h2>
+  <p style="font-size:0.85rem;color:#64748B;margin-bottom:0.75rem;">คลิกตรงไหนก็ได้บนแผนที่เพื่อปักหมุด หรือลากหมุดไปยังตำแหน่งที่ต้องการ</p>
+  <div id="map-picker" style="height:380px;border-radius:12px;overflow:hidden;border:1.5px solid #CBD5E1;"></div>
+  <div class="modal-grid-2" style="margin-top:0.75rem;">
+    <div class="form-field" style="margin-bottom:0;">
+      <label>Latitude (ละติจูด)</label>
+      <input id="mp-lat" type="number" step="any" placeholder="13.7563">
+    </div>
+    <div class="form-field" style="margin-bottom:0;">
+      <label>Longitude (ลองจิจูด)</label>
+      <input id="mp-lng" type="number" step="any" placeholder="100.5018">
+    </div>
+  </div>
+  <div class="modal-actions">
+    <button class="btn btn-secondary" id="mp-cancel" type="button">ยกเลิก</button>
+    <button class="btn" id="mp-confirm" type="button"><svg class="ic" width="16" height="16"><use href="/assets/icons/sprite.svg#i-check"></use></svg> ใช้พิกัดนี้</button>
+  </div>
+</dialog>
+
+<footer id="site-footer"></footer>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script type="module" src="/js/app.js"></script>
+<script type="module" src="/js/admin.js?v=6"></script>
+</body>
+</html>

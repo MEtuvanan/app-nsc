@@ -1,0 +1,529 @@
+/* ==========================================================================
+   Explore Page — Centered Bottom AI Chatbot & Round Popup Widget
+   ========================================================================== */
+
+/* ── 1. Bottom-Center Chatbot Dock ───────────────────────────────────────── */
+.ai-bottom-dock {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(0) scale(1);
+  z-index: 1000;
+  width: min(720px, calc(100vw - 2rem));
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(13, 148, 136, 0.3);
+  border-radius: 22px;
+  box-shadow: 0 16px 40px -10px rgba(11, 37, 27, 0.22), 0 0 0 1px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: inherit;
+}
+
+.ai-bottom-dock.minimized {
+  transform: translateX(-50%) translateY(50px) scale(0.9);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Dock Header */
+.ai-dock-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.65rem 1rem;
+  background: linear-gradient(135deg, rgba(13, 148, 136, 0.1), rgba(245, 158, 11, 0.06));
+  border-bottom: 1px solid rgba(13, 148, 136, 0.15);
+  cursor: default;
+  user-select: none;
+}
+
+.ai-dock-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ai-dock-sparkle {
+  font-size: 1.15rem;
+  display: inline-block;
+  animation: sparkleRotate 3s infinite ease-in-out;
+}
+
+.ai-dock-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-forest, #0B251B);
+  letter-spacing: -0.01em;
+}
+
+.ai-dock-badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border-radius: 9999px;
+  background: var(--color-emerald-tint, #ecfdf5);
+  color: var(--color-emerald, #059669);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.ai-dock-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.ai-dock-btn-reset {
+  background: transparent;
+  border: none;
+  font-size: 0.8rem;
+  color: #64748b;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.ai-dock-btn-reset:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: #0f172a;
+}
+
+.ai-dock-btn-close {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+  color: #64748b;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: all 0.2s;
+}
+
+.ai-dock-btn-close:hover {
+  background: #fee2e2;
+  color: #ef4444;
+  border-color: #fca5a5;
+  transform: scale(1.05);
+}
+
+/* ── Chat Messages Stream Container ───────────────────────────────────────── */
+.ai-dock-messages {
+  max-height: 380px;
+  overflow-y: auto;
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  background: #fafafa;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.ai-dock-messages:empty {
+  display: none;
+}
+
+/* Chat Message Bubbles */
+.dock-msg-row {
+  display: flex;
+  gap: 0.65rem;
+  width: 100%;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.dock-msg-row.user {
+  justify-content: flex-end;
+}
+
+.dock-msg-row.ai {
+  justify-content: flex-start;
+}
+
+.dock-msg-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.dock-msg-row.ai .dock-msg-avatar {
+  background: linear-gradient(135deg, rgba(13, 148, 136, 0.2), rgba(245, 158, 11, 0.2));
+  color: #0d9488;
+  border: 1px solid rgba(13, 148, 136, 0.3);
+}
+
+.dock-msg-row.user .dock-msg-avatar {
+  background: #0B251B;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.dock-msg-bubble {
+  max-width: 85%;
+  padding: 0.75rem 1rem;
+  border-radius: 16px;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  word-break: break-word;
+}
+
+.dock-msg-row.user .dock-msg-bubble {
+  background: linear-gradient(135deg, #0B251B, #164e43);
+  color: #ffffff;
+  border-bottom-right-radius: 3px;
+  box-shadow: 0 4px 10px rgba(11, 37, 27, 0.15);
+}
+
+.dock-msg-row.ai .dock-msg-bubble {
+  background: #ffffff;
+  color: #1e293b;
+  border: 1px solid #e2e8f0;
+  border-bottom-left-radius: 3px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.dock-msg-bubble h1, .dock-msg-bubble h2, .dock-msg-bubble h3 {
+  margin: 0.6rem 0 0.3rem;
+  font-size: 1.05rem;
+  color: #0f172a;
+}
+
+.dock-msg-bubble p {
+  margin: 0 0 0.45rem;
+}
+.dock-msg-bubble p:last-child {
+  margin: 0;
+}
+
+.dock-msg-bubble ul, .dock-msg-bubble ol {
+  padding-left: 1.2rem;
+  margin: 0.4rem 0;
+}
+
+.dock-msg-bubble table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.6rem 0;
+  font-size: 0.85rem;
+}
+
+.dock-msg-bubble th, .dock-msg-bubble td {
+  border: 1px solid #cbd5e1;
+  padding: 0.4rem 0.55rem;
+}
+
+.dock-msg-bubble th {
+  background: #f1f5f9;
+  font-weight: 700;
+}
+
+/* Typing Indicator in Dock */
+.dock-typing {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  padding: 0.3rem 0.1rem;
+}
+.dock-typing-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #0d9488;
+  animation: typingBounce 1.4s infinite ease-in-out both;
+}
+.dock-typing-dot:nth-child(1) { animation-delay: -0.32s; }
+.dock-typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+/* ── 2. Initial Suggestion Pills (Shown ONLY on first entry) ─────────────── */
+.ai-dock-pills-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 0.95rem 0.3rem;
+  background: #ffffff;
+  animation: fadeIn 0.3s ease;
+}
+
+.dock-pills-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #64748b;
+  margin-right: 0.2rem;
+}
+
+.dock-pill-btn {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 9999px;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.8rem;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.dock-pill-btn:hover {
+  background: #ecfdf5;
+  border-color: #10b981;
+  color: #059669;
+  transform: translateY(-1px);
+}
+
+/* ── 3. Dock Input Form ──────────────────────────────────────────────────── */
+.ai-dock-form {
+  padding: 0.65rem 0.9rem;
+  background: #ffffff;
+}
+
+.ai-dock-input-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.6rem;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 0.45rem 0.65rem 0.45rem 0.95rem;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ai-dock-input-row:focus-within {
+  background: #ffffff;
+  border-color: #0d9488;
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.12);
+}
+
+.ai-dock-input-row textarea {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: inherit;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: #0f172a;
+  resize: none;
+  max-height: 120px;
+  padding: 0.25rem 0;
+  box-sizing: border-box;
+}
+
+.ai-dock-input-row textarea::placeholder {
+  color: #94a3b8;
+  font-size: 0.88rem;
+}
+
+.ai-dock-send-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, #0d9488, #0f766e);
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(13, 148, 136, 0.3);
+}
+
+.ai-dock-send-btn:hover:not(:disabled) {
+  transform: scale(1.06);
+  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.4);
+}
+
+.ai-dock-send-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ── 4. Floating Round Button on the Right (Minimized State) ─────────────── */
+.ai-fab-round-right {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 1000;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0B251B 0%, #00A86B 100%);
+  color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 10px 25px -4px rgba(0, 168, 107, 0.5), 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: grid;
+  place-items: center;
+  font-size: 1.4rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: scale(0);
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.ai-fab-round-right.visible {
+  transform: scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.ai-fab-round-right:hover {
+  transform: scale(1.1);
+  box-shadow: 0 14px 32px -4px rgba(0, 168, 107, 0.65), 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.ai-fab-round-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: #ef4444;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 0.15rem 0.4rem;
+  border-radius: 9999px;
+  border: 2px solid #fff;
+}
+
+/* ── Embedded Itinerary Card inside explore chat ─────────────────────────── */
+.dock-itinerary-card {
+  margin-top: 0.65rem;
+  background: #f8fafc;
+  border: 1px solid rgba(13, 148, 136, 0.3);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.dock-itinerary-header {
+  background: linear-gradient(135deg, rgba(13, 148, 136, 0.12), rgba(245, 158, 11, 0.08));
+  padding: 0.75rem 0.95rem;
+  border-bottom: 1px solid rgba(13, 148, 136, 0.15);
+}
+
+.dock-itinerary-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 0.2rem;
+}
+
+.dock-itinerary-summary {
+  font-size: 0.82rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.dock-stop-item {
+  display: flex;
+  gap: 0.65rem;
+  padding: 0.65rem 0.95rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.dock-stop-item:last-child {
+  border-bottom: none;
+}
+
+.dock-stop-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #ecfdf5;
+  color: #059669;
+  font-weight: 800;
+  font-size: 0.8rem;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.dock-stop-info {
+  flex: 1;
+}
+
+.dock-stop-name {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #0f172a;
+  margin: 0;
+}
+
+.dock-stop-desc {
+  font-size: 0.8rem;
+  color: #475569;
+  margin: 0.2rem 0;
+}
+
+.dock-stop-actions {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 0.35rem;
+}
+
+.btn-dock-nav, .btn-dock-map {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid;
+}
+
+.btn-dock-nav {
+  background: #ecfdf5;
+  border-color: #10b981;
+  color: #059669;
+}
+.btn-dock-map {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #334155;
+}
+
+/* Animations */
+@keyframes sparkleRotate {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.2) rotate(15deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes typingBounce {
+  0%, 80%, 100% { transform: scale(0); opacity: 0.4; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+/* ── Mobile responsiveness ────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .ai-bottom-dock {
+    bottom: 0.75rem;
+    width: calc(100vw - 1rem);
+    border-radius: 16px;
+  }
+  .ai-fab-round-right {
+    bottom: 1.25rem;
+    right: 1.25rem;
+    width: 52px;
+    height: 52px;
+  }
+}

@@ -1,0 +1,33 @@
+/* Profile page styles */
+.profile-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-large); padding: var(--space-6); box-shadow: var(--shadow-soft); }
+.avatar-wrap { width: 80px; height: 80px; border-radius: 50%; background: var(--color-emerald-tint); border: 3px solid var(--color-border); display: flex; align-items: center; justify-content: center; font-size: 2rem; overflow: hidden; margin: 0 auto var(--space-4); }
+.avatar-wrap img { width: 100%; height: 100%; object-fit: cover; }
+.profile-name { font-size: 1.4rem; font-weight: 700; margin-bottom: .15rem; }
+.profile-role { font-size: var(--fs-meta); }
+.profile-stat { font-size: 1.75rem; font-weight: 700; color: var(--color-emerald-deep); }
+.profile-stat-label { font-size: var(--fs-meta); color: var(--color-text-muted); }
+.profile-stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); margin: var(--space-5) 0; text-align: center; }
+
+/* Quest history list — แสดงรูปเช็คอิน + ข้อมูล */
+.quest-list-profile { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-3); }
+.quest-history-item { display: flex; gap: var(--space-3); align-items: flex-start; padding: .75rem; background: var(--color-surface-soft); border-radius: var(--radius-medium); border: 1px solid var(--color-border); }
+.quest-history-thumb { width: 72px; height: 72px; border-radius: var(--radius-small); object-fit: cover; flex-shrink: 0; }
+.quest-thumb-placeholder { width: 72px; height: 72px; border-radius: var(--radius-small); background: var(--color-emerald-tint); display: flex; align-items: center; justify-content: center; font-size: 1.75rem; flex-shrink: 0; }
+.quest-history-info { flex: 1; min-width: 0; }
+.quest-history-title { font-weight: 600; font-size: .9rem; display: block; margin-bottom: .35rem; }
+.quest-history-meta { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; font-size: .75rem; color: var(--color-text-muted); margin-bottom: .35rem; }
+.quest-history-caption { font-size: .8rem; color: var(--color-text-muted); font-style: italic; margin: .25rem 0 0; border-left: 2px solid var(--color-emerald-mid); padding-left: .5rem; }
+
+/* Trips list on profile */
+.trip-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-2); }
+.trip-list li { display: flex; align-items: center; justify-content: space-between; padding: .6rem .8rem; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-small); }
+.trip-list a { font-weight: 600; color: var(--color-emerald-deep); text-decoration: none; }
+.trip-list a:hover { text-decoration: underline; }
+
+/* Edit profile form inside card */
+.profile-edit-form { margin-top: var(--space-5); }
+.section-divider { border: 0; border-top: 1px solid var(--color-border); margin: var(--space-5) 0; }
+
+/* Danger zone */
+.danger-zone { border: 1px solid var(--color-danger); border-radius: var(--radius-medium); padding: var(--space-4); margin-top: var(--space-5); }
+.danger-zone h3 { color: var(--color-danger); margin-bottom: .5rem; }

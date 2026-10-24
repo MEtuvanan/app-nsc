@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Profile — Travel and Challenge</title>
+<meta name="description" content="View your travel progress, completed quests, saved trips, and manage your account.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/desktop.css">
+<link rel="stylesheet" href="/css/mobile.css">
+<link rel="stylesheet" href="/css/animations.css">
+<link rel="stylesheet" href="/css/pages/profile.css">
+</head>
+<body data-protected="true">
+<nav id="site-nav" aria-label="Main"></nav>
+<main class="section">
+  <div class="container">
+    <p id="status" role="status" class="muted">Loading…</p>
+    <div id="content" hidden>
+      <div class="profile-layout">
+
+        <!-- Sidebar: profile card -->
+        <aside>
+          <div class="profile-card card fade-up">
+            <div class="avatar-wrap" aria-hidden="true"><svg class="ic" width="36" height="36"><use href="/assets/icons/sprite.svg#i-user"></use></svg></div>
+            <p class="profile-name" id="p-name"></p>
+            <p class="meta" id="p-email"></p>
+            <p class="meta profile-role" id="p-role"></p>
+            <div class="profile-stats-row">
+              <div>
+                <span class="profile-stat" id="stat-quests">—</span>
+                <span class="profile-stat-label">Quests</span>
+              </div>
+              <div>
+                <span class="profile-stat" id="stat-places">—</span>
+                <span class="profile-stat-label">Places</span>
+              </div>
+              <div>
+                <span class="profile-stat" id="p-tokens">—</span>
+                <span class="profile-stat-label">Tokens</span>
+              </div>
+            </div>
+            <hr class="section-divider">
+            <p class="meta" style="margin-bottom:.5rem">Saved trips</p>
+            <span class="profile-stat" id="stat-trips">—</span>
+            <hr class="section-divider">
+            <p style="margin-top:1rem">
+              <a class="btn btn-small btn-secondary" href="/collection.html" style="width:100%;justify-content:center">View collection</a>
+            </p>
+            <p>
+              <a class="btn btn-small" href="/partner.html" style="width:100%;justify-content:center;margin-top:.5rem"><svg class="ic" width="16" height="16" aria-hidden="true"><use href="/assets/icons/sprite.svg#i-pin"></use></svg> เพิ่มสถานที่ / ผู้ประกอบการ</a>
+            </p>
+            <p>
+              <a class="btn btn-small btn-secondary" href="/help.html#profile" style="width:100%;justify-content:center;margin-top:.5rem"><svg class="ic" width="16" height="16" aria-hidden="true"><use href="/assets/icons/sprite.svg#i-book"></use></svg> คู่มือการใช้งาน</a>
+            </p>
+            <p>
+              <button class="btn btn-small btn-secondary" id="btn-signout" type="button" style="width:100%;justify-content:center;margin-top:.5rem">Sign out</button>
+            </p>
+          </div>
+        </aside>
+
+        <!-- Main content -->
+        <div class="stack">
+          <!-- Quest history -->
+          <section class="card fade-up">
+            <h2 style="font-size:1.25rem">Completed quests</h2>
+            <ul class="quest-list-profile" id="p-quests"><li class="muted">Loading…</li></ul>
+            <p style="margin-top:1rem"><a class="btn btn-small btn-secondary" href="/quests.html">Browse quests</a></p>
+          </section>
+
+          <!-- Saved trips -->
+          <section class="card fade-up">
+            <h2 style="font-size:1.25rem">Saved trips</h2>
+            <ul class="trip-list" id="p-trips"><li class="muted">Loading…</li></ul>
+            <p style="margin-top:1rem"><a class="btn btn-small btn-secondary" href="/planner.html">AI Trip Planner</a></p>
+          </section>
+
+          <!-- Edit display name -->
+          <section class="card fade-up">
+            <h2 style="font-size:1.25rem">Account settings</h2>
+            <form id="ed-form" novalidate>
+              <div class="form-field">
+                <label for="ed-name">Display name</label>
+                <input id="ed-name" maxlength="40" required autocomplete="nickname">
+                <span class="form-hint">Currently: <span id="ed-name-current"></span></span>
+              </div>
+              <button class="btn btn-small" id="ed-save" type="submit">Update name</button>
+            </form>
+
+            <hr class="section-divider">
+
+            <!-- Change password -->
+            <h3 style="font-size:1rem;margin-bottom:1rem">Change password</h3>
+            <form id="pw-form" novalidate>
+              <div class="form-field">
+                <label for="pw-new">New password</label>
+                <input id="pw-new" type="password" minlength="8" required autocomplete="new-password">
+                <span class="form-hint">At least 8 characters.</span>
+              </div>
+              <div class="form-field">
+                <label for="pw-confirm">Confirm new password</label>
+                <input id="pw-confirm" type="password" required autocomplete="new-password">
+              </div>
+              <button class="btn btn-small" id="pw-save" type="submit">Change password</button>
+            </form>
+
+            <hr class="section-divider">
+            <div class="danger-zone">
+              <h3>Delete account</h3>
+              <p class="meta">Permanently delete your account and all private data. This cannot be undone.</p>
+              <button class="btn btn-small btn-danger" id="btn-delete-account" type="button">Delete my account</button>
+            </div>
+          </section>
+        </div>
+
+      </div><!-- /.profile-layout -->
+    </div><!-- /#content -->
+  </div>
+</main>
+<footer id="site-footer"></footer>
+<script type="module" src="/js/app.js"></script>
+<script type="module" src="/js/profile.js"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+/* Layout adjustments for tablets and up. Shared HTML; no duplicated pages. */
+@media (min-width: 768px) {
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .split  { display: grid; grid-template-columns: 1.1fr .9fr; gap: var(--space-7); align-items: center; }
+  .hero-art, .hero-art-wrapper { order: 2; }
+
+  /* Explore: side-by-side list + map */
+  .explore { display: flex; flex-direction: column; height: calc(100vh - 56px); overflow: hidden; }
+  .filters { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-3); padding: var(--space-3) 4%; background: var(--color-surface); border-bottom: 1px solid var(--color-border); flex-shrink: 0; }
+  .explore-body { display: grid; grid-template-columns: 360px 1fr; flex: 1; overflow: hidden; }
+  .list-pane { overflow-y: auto; padding: var(--space-4); }
+  .map { height: 100%; min-height: 0; }
+
+  /* Admin tabs stay horizontal */
+  .admin-tabs { display: flex; flex-wrap: wrap; }
+
+  /* Planner two-column */
+  .planner { display: grid; grid-template-columns: 380px 1fr; gap: var(--space-5); align-items: start; }
+}
+@media (min-width: 1024px) {
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-4 { grid-template-columns: repeat(4, 1fr); }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: var(--space-6); }
+  .filters { padding-inline: calc((100% - 1200px) / 2 + 2%); }
+
+  /* Profile two-column */
+  .profile-layout { display: grid; grid-template-columns: 260px 1fr; gap: var(--space-6); align-items: start; }
+}
+

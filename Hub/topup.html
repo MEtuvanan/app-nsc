@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>เติมโทเคน — Travel and Challenge</title>
+<meta name="description" content="เติมโทเคนเพื่อปลดล็อกตัวละครพิเศษ เข้าร่วมแคมเปญ และรับสิทธิพิเศษในการผจญภัย">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700;800&family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/desktop.css">
+<link rel="stylesheet" href="/css/mobile.css">
+<style>
+/* ════════════════════════════════════════════════
+   TOKEN TOP-UP — Full redesign, SVG-first
+════════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  background: #0C1914;
+  color: #E8EDF0;
+  font-family: 'IBM Plex Sans Thai', system-ui, sans-serif;
+  min-height: 100vh;
+}
+
+/* ── HERO ─────────────────────────────────────── */
+.tu-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 3.5rem 1.5rem 2.5rem;
+  text-align: center;
+  background: linear-gradient(175deg, #0C1914 0%, #14261F 50%, #0C1914 100%);
+}
+.tu-hero::after {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 55% at 50% -10%, rgba(242,168,29,.18) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 30% at 80% 80%, rgba(31,122,92,.1) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* floating particles */
+.tu-particles { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+.tu-particle {
+  position: absolute;
+  border-radius: 50%;
+  opacity: .5;
+  animation: floatUp linear infinite;
+}
+@keyframes floatUp {
+  from { transform: translateY(110%) scale(1); opacity:.5; }
+  to   { transform: translateY(-10%) scale(.6); opacity:0; }
+}
+
+.tu-hero-badge {
+  display: inline-flex; align-items: center; gap:.5rem;
+  background: rgba(242,168,29,.12);
+  border: 1px solid rgba(242,168,29,.3);
+  border-radius: 999px;
+  padding: .35rem 1.1rem;
+  font-size: .78rem; font-weight: 600; letter-spacing:.06em;
+  color: #F2A81D; margin-bottom: 1.25rem;
+  position: relative; z-index: 1;
+}
+.tu-hero-icon {
+  width: 88px; height: 88px;
+  margin: 0 auto 1.25rem;
+  position: relative; z-index: 1;
+  animation: iconFloat 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 28px rgba(242,168,29,.5));
+}
+@keyframes iconFloat {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+.tu-hero h1 {
+  font-family: 'Kanit', sans-serif;
+  font-size: clamp(1.75rem, 4.5vw, 2.4rem);
+  font-weight: 800; color: #fff; margin: 0 0 .5rem;
+  position: relative; z-index: 1;
+}
+.tu-hero-sub {
+  color: rgba(255,255,255,.55); font-size:.95rem;
+  margin: 0 0 1.75rem; position: relative; z-index: 1;
+}
+
+/* balance bar */
+.balance-bar {
+  display: inline-flex; align-items: center; gap: .75rem;
+  background: rgba(255,255,255,.05);
+  border: 1.5px solid rgba(242,168,29,.25);
+  border-radius: 14px;
+  padding: .7rem 1.5rem;
+  position: relative; z-index: 1;
+  backdrop-filter: blur(12px);
+}
+.balance-bar-label { color: rgba(255,255,255,.45); font-size:.82rem; }
+.balance-bar-val {
+  font-family: 'Kanit', sans-serif;
+  font-size: 1.5rem; font-weight: 800;
+  color: #F2A81D; line-height:1;
+}
+.balance-bar-unit { color: rgba(255,255,255,.4); font-size:.82rem; }
+
+/* ── LAYOUT ───────────────────────────────────── */
+.tu-body {
+  max-width: 760px; margin: 0 auto;
+  padding: 2rem 1.25rem 5rem;
+  display: flex; flex-direction: column; gap: 2.5rem;
+}
+
+/* ── SECTION HEADER ───────────────────────────── */
+.sec-hd {
+  display: flex; align-items: center; gap: .6rem;
+  margin-bottom: 1rem;
+}
+.sec-hd-icon {
+  width: 36px; height: 36px; flex-shrink: 0;
+  background: rgba(242,168,29,.12);
+  border: 1px solid rgba(242,168,29,.25);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+}
+.sec-hd-text h2 {
+  font-family: 'Kanit', sans-serif;
+  font-size: 1.05rem; font-weight: 700; color: #fff; margin: 0;
+}
+.sec-hd-text p { font-size:.8rem; color: rgba(255,255,255,.45); margin: 0; }
+
+/* ── PACKAGE CARDS ────────────────────────────── */
+.pkg-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: .85rem;
+}
+
+.pkg {
+  position: relative; border-radius: 18px;
+  padding: 1.4rem 1.1rem 1.1rem;
+  cursor: pointer; text-align: center;
+  transition: transform .2s ease, box-shadow .2s ease;
+  display: flex; flex-direction: column; align-items: center; gap: .5rem;
+  border: 1.5px solid transparent;
+  background-clip: padding-box;
+}
+.pkg:hover { transform: translateY(-4px); }
+.pkg:active { transform: translateY(-1px); }
+
+.pkg-bronze {
+  background: linear-gradient(160deg, #1c1208 0%, #14100a 100%);
+  border-color: rgba(180,110,40,.4);
+  box-shadow: 0 0 0 0 rgba(180,110,40,0);
+}
+.pkg-bronze:hover { box-shadow: 0 12px 32px rgba(180,110,40,.22); }
+
+.pkg-silver {
+  background: linear-gradient(160deg, #111620 0%, #0d121a 100%);
+  border-color: rgba(148,163,184,.3);
+}
+.pkg-silver:hover { box-shadow: 0 12px 32px rgba(148,163,184,.18); }
+
+.pkg-gold {
+  background: linear-gradient(160deg, #1c1508 0%, #140f05 100%);
+  border-color: rgba(242,168,29,.45);
+}
+.pkg-gold:hover { box-shadow: 0 12px 40px rgba(242,168,29,.25); }
+
+.pkg-purple {
+  background: linear-gradient(160deg, #160e2a 0%, #100a1e 100%);
+  border-color: rgba(167,139,250,.4);
+}
+.pkg-purple:hover { box-shadow: 0 12px 40px rgba(167,139,250,.22); }
+
+/* badges */
+.pkg-badge {
+  position: absolute; top: .75rem; right: .75rem;
+  font-size: .62rem; font-weight: 700; letter-spacing: .06em;
+  padding: 2px 8px; border-radius: 99px;
+  text-transform: uppercase;
+}
+.b-popular { background: rgba(31,122,92,.9); color: #A7F3D0; }
+.b-best    { background: rgba(242,168,29,.18); color: #F2A81D; border: 1px solid rgba(242,168,29,.4); }
+.b-premium { background: rgba(124,58,237,.2);  color: #C4B5FD; border: 1px solid rgba(124,58,237,.4); }
+
+/* coin SVG wrapper */
+.pkg-coin {
+  width: 64px; height: 64px;
+  margin-bottom: .25rem;
+  filter: drop-shadow(0 4px 12px var(--coin-glow));
+}
+
+.pkg-amount {
+  font-family: 'Kanit', sans-serif;
+  font-size: 2rem; font-weight: 800; color: #fff; line-height: 1;
+}
+.pkg-unit { font-size: .78rem; color: rgba(255,255,255,.45); }
+.pkg-name { font-size: .82rem; font-weight: 600; color: rgba(255,255,255,.6); min-height: 1.1rem; }
+
+.pkg-price {
+  font-family: 'Kanit', sans-serif;
+  font-size: 1.15rem; font-weight: 700; color: #fff;
+}
+
+.pkg-btn {
+  width: 100%; padding: .55rem;
+  border: none; border-radius: 10px;
+  font-family: 'Kanit', sans-serif; font-size: .88rem; font-weight: 700;
+  cursor: pointer; transition: filter .18s, transform .18s;
+  display: flex; align-items: center; justify-content: center; gap: .4rem;
+}
+.pkg-btn:hover  { filter: brightness(1.15); }
+.pkg-btn:active { transform: scale(.97); }
+
+.btn-bronze { background: linear-gradient(135deg,#C97B38,#8B5215); color: #FFD9A0; }
+.btn-silver { background: linear-gradient(135deg,#6D8AA8,#455A6E); color: #E0EAF4; }
+.btn-gold   { background: linear-gradient(135deg,#F2A81D,#B87A0E); color: #3D2000; }
+.btn-purple { background: linear-gradient(135deg,#7C3AED,#4C1D95); color: #EDE9FE; }
+
+/* ── BENEFITS ─────────────────────────────────── */
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: .65rem;
+}
+.benefit-card {
+  background: rgba(255,255,255,.035);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 14px;
+  padding: .9rem 1rem;
+  display: flex; gap: .75rem; align-items: flex-start;
+}
+.benefit-icon {
+  width: 36px; height: 36px; flex-shrink: 0;
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+}
+.benefit-title { font-size:.82rem; font-weight:700; color:#fff; margin-bottom:.2rem; }
+.benefit-desc  { font-size:.75rem; color:rgba(255,255,255,.45); line-height:1.4; }
+
+/* ── CHARACTER CARDS ──────────────────────────── */
+.char-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: .85rem;
+}
+.char-card {
+  border-radius: 18px; overflow: hidden;
+  display: flex; flex-direction: column;
+  border: 1.5px solid transparent;
+  position: relative;
+  transition: transform .2s ease;
+}
+.char-card:hover { transform: translateY(-3px); }
+
+.char-card-img {
+  position: relative;
+  padding: 1rem .75rem 0;
+  display: flex; justify-content: center;
+}
+.char-card-img img {
+  width: 100%; max-width: 150px;
+  height: auto; object-fit: contain;
+}
+.char-card-body {
+  padding: .6rem .9rem .85rem;
+  display: flex; flex-direction: column; gap: .25rem; flex: 1;
+}
+.char-card-name {
+  font-family:'Kanit',sans-serif; font-weight:700; font-size:.9rem;
+  color:#fff; line-height:1.2;
+}
+.char-card-rarity { font-size:.7rem; opacity:.65; }
+.char-card-price {
+  margin-top: auto;
+  padding: .4rem .6rem;
+  border-radius: 9px; text-align:center;
+  font-family:'Kanit',sans-serif; font-size:.88rem; font-weight:700;
+  display:flex; align-items:center; justify-content:center; gap:.4rem;
+}
+.char-card-btn {
+  margin-top:.4rem; padding:.42rem;
+  border:none; border-radius:9px; cursor:pointer;
+  font-family:'Kanit',sans-serif; font-size:.78rem; font-weight:600;
+  width:100%; transition: filter .18s;
+  display:flex; align-items:center; justify-content:center; gap:.35rem;
+}
+.char-card-btn:hover { filter: brightness(1.12); }
+
+/* store chars */
+.cc-zael {
+  background: linear-gradient(175deg,#160e2a,#100a1e);
+  border-color: rgba(124,58,237,.35);
+}
+.cc-zael .char-card-img { background: radial-gradient(ellipse at 50% 20%,rgba(124,58,237,.3),transparent 65%); }
+.cc-zael .char-card-rarity { color:#C4B5FD; }
+.cc-zael .char-card-price { background: rgba(124,58,237,.15); color:#C4B5FD; border:1px solid rgba(124,58,237,.3); }
+.cc-zael .char-card-img img { filter: drop-shadow(0 4px 18px rgba(124,58,237,.55)); }
+.btn-buy-zael { background: linear-gradient(135deg,#7C3AED,#4C1D95); color:#EDE9FE; }
+
+.cc-luna {
+  background: linear-gradient(175deg,#1c0a0a,#140606);
+  border-color: rgba(239,68,68,.3);
+}
+.cc-luna .char-card-img { background: radial-gradient(ellipse at 50% 20%,rgba(239,68,68,.2),transparent 65%); }
+.cc-luna .char-card-rarity { color:#FCA5A5; }
+.cc-luna .char-card-price { background:rgba(239,68,68,.12); color:#FCA5A5; border:1px solid rgba(239,68,68,.3); }
+.cc-luna .char-card-img img { filter: drop-shadow(0 4px 18px rgba(239,68,68,.45)); }
+.btn-buy-luna { background: linear-gradient(135deg,#DC2626,#991B1B); color:#FEE2E2; }
+
+/* campaign chars */
+.cc-ray {
+  background: linear-gradient(175deg,#0a1220,#060d18);
+  border-color: rgba(59,130,246,.3);
+}
+.cc-ray .char-card-img { background: radial-gradient(ellipse at 50% 20%,rgba(59,130,246,.22),transparent 65%); }
+.cc-ray .char-card-rarity { color:#93C5FD; }
+.cc-ray .char-card-price { background:rgba(59,130,246,.12); color:#93C5FD; border:1px solid rgba(59,130,246,.3); }
+.cc-ray .char-card-img img { filter: drop-shadow(0 4px 18px rgba(59,130,246,.45)); }
+.btn-join-ray { background: linear-gradient(135deg,#1D4ED8,#1E3A8A); color:#DBEAFE; }
+
+.cc-maya {
+  background: linear-gradient(175deg,#051a10,#031209);
+  border-color: rgba(16,185,129,.3);
+}
+.cc-maya .char-card-img { background: radial-gradient(ellipse at 50% 20%,rgba(16,185,129,.2),transparent 65%); }
+.cc-maya .char-card-rarity { color:#6EE7B7; }
+.cc-maya .char-card-price { background:rgba(16,185,129,.12); color:#6EE7B7; border:1px solid rgba(16,185,129,.3); }
+.cc-maya .char-card-img img { filter: drop-shadow(0 4px 18px rgba(16,185,129,.45)); }
+.btn-join-maya { background: linear-gradient(135deg,#059669,#064E3B); color:#D1FAE5; }
+
+/* free badge */
+.free-tag {
+  position:absolute; top:.6rem; left:.6rem;
+  background: #065F46; color:#A7F3D0;
+  font-size:.62rem; font-weight:700; letter-spacing:.05em;
+  padding: 2px 8px; border-radius:6px; text-transform:uppercase;
+  display:flex; align-items:center; gap:.25rem;
+}
+
+/* ── FAQ ──────────────────────────────────────── */
+.faq-list { display:flex; flex-direction:column; gap:0; }
+.faq-item {
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.faq-item:first-child { border-top:1px solid rgba(255,255,255,.07); }
+.faq-q {
+  width:100%; background:none; border:none;
+  color: rgba(255,255,255,.8); font-size:.88rem; font-weight:600;
+  text-align:left; padding:.9rem 0;
+  cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:.5rem;
+  font-family: 'IBM Plex Sans Thai', sans-serif;
+}
+.faq-chevron { flex-shrink:0; transition:transform .25s; }
+.faq-item.open .faq-chevron { transform:rotate(180deg); }
+.faq-a {
+  font-size:.83rem; color:rgba(255,255,255,.5); line-height:1.65;
+  max-height:0; overflow:hidden; transition:max-height .3s ease, padding-bottom .2s;
+}
+.faq-item.open .faq-a { max-height:200px; padding-bottom:.9rem; }
+
+/* ── MODAL ────────────────────────────────────── */
+.modal-overlay {
+  position:fixed; inset:0; z-index:9999;
+  background:rgba(0,0,0,.72); backdrop-filter:blur(8px);
+  display:flex; align-items:center; justify-content:center; padding:1rem;
+  opacity:0; pointer-events:none; transition:opacity .25s;
+}
+.modal-overlay.open { opacity:1; pointer-events:all; }
+
+.modal {
+  background: #14261F;
+  border:1.5px solid rgba(242,168,29,.2);
+  border-radius:22px; padding:1.75rem;
+  max-width:440px; width:100%;
+  box-shadow:0 24px 64px rgba(0,0,0,.6);
+  transform:scale(.9) translateY(20px);
+  transition:transform .28s cubic-bezier(.34,1.56,.64,1);
+  position:relative;
+}
+.modal-overlay.open .modal { transform:scale(1) translateY(0); }
+
+.modal-close {
+  position:absolute; top:1rem; right:1rem;
+  background:rgba(255,255,255,.07); border:none;
+  width:32px; height:32px; border-radius:50%;
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
+  color:rgba(255,255,255,.55); transition:background .15s;
+}
+.modal-close:hover { background:rgba(255,255,255,.14); color:#fff; }
+
+.modal-summary {
+  display:flex; align-items:center; gap:1rem;
+  background:rgba(255,255,255,.04); border-radius:13px;
+  padding:.9rem 1.1rem; margin-bottom:1.4rem;
+}
+.modal-sum-coin { width:48px; height:48px; flex-shrink:0; }
+.modal-sum-name { font-family:'Kanit',sans-serif; font-size:1rem; font-weight:700; color:#fff; }
+.modal-sum-sub  { font-size:.78rem; color:rgba(255,255,255,.45); }
+
+.modal-label { font-size:.75rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:rgba(255,255,255,.4); margin-bottom:.6rem; }
+
+.pay-grid {
+  display:grid; grid-template-columns:repeat(2,1fr); gap:.55rem; margin-bottom:1.25rem;
+}
+.pay-opt {
+  padding:.65rem .5rem; border-radius:11px; text-align:center;
+  border:2px solid rgba(255,255,255,.07); background:rgba(255,255,255,.03);
+  cursor:pointer; transition:border-color .18s, background .18s;
+  font-size:.78rem; color:rgba(255,255,255,.6); font-weight:500;
+}
+.pay-opt:hover { border-color:rgba(242,168,29,.35); color:#fff; }
+.pay-opt.sel   { border-color:#F2A81D; background:rgba(242,168,29,.08); color:#F2A81D; }
+.pay-opt-icon  { margin-bottom:.25rem; }
+
+.qr-box {
+  text-align:center; margin-bottom:1.1rem;
+}
+.qr-frame {
+  width:160px; height:160px; margin:0 auto .5rem;
+  background:#fff; border-radius:10px;
+  display:flex; align-items:center; justify-content:center;
+  position:relative; overflow:hidden;
+}
+.qr-frame svg { width:80%; height:80%; opacity:.3; }
+.qr-note { font-size:.75rem; color:rgba(255,255,255,.4); }
+
+.slip-drop {
+  border:2px dashed rgba(255,255,255,.12); border-radius:12px;
+  padding:1rem; text-align:center; margin-bottom:1rem;
+  cursor:pointer; transition:border-color .18s;
+}
+.slip-drop:hover { border-color:rgba(242,168,29,.35); }
+.slip-drop input { display:none; }
+.slip-drop-ico  { margin-bottom:.3rem; }
+.slip-drop-txt  { font-size:.78rem; color:rgba(255,255,255,.45); }
+.slip-drop-txt strong { color:rgba(255,255,255,.75); }
+#slip-preview { max-width:100%; border-radius:8px; margin-top:.5rem; display:none; }
+
+.modal-cta {
+  width:100%; padding:.8rem;
+  background:linear-gradient(135deg,#1F7A5C,#155A43);
+  color:#A7F3D0; border:none; border-radius:11px;
+  font-family:'Kanit',sans-serif; font-size:.95rem; font-weight:700;
+  cursor:pointer; transition:filter .18s, transform .18s;
+  display:flex; align-items:center; justify-content:center; gap:.5rem;
+}
+.modal-cta:hover { filter:brightness(1.1); }
+.modal-cta:disabled { opacity:.5; pointer-events:none; }
+
+/* ── SUCCESS ──────────────────────────────────── */
+.success-wrap {
+  position:fixed; inset:0; z-index:10000;
+  display:flex; align-items:center; justify-content:center;
+  pointer-events:none; opacity:0; transition:opacity .3s;
+}
+.success-wrap.show { opacity:1; }
+.success-card {
+  background:#14261F; border:2px solid rgba(31,122,92,.6);
+  border-radius:20px; padding:2rem 2.25rem;
+  text-align:center; max-width:320px; width:90%;
+  box-shadow:0 24px 64px rgba(0,0,0,.5);
+  transform:scale(.8); transition:transform .4s cubic-bezier(.34,1.56,.64,1);
+}
+.success-wrap.show .success-card { transform:scale(1); }
+.success-ico { margin-bottom:.75rem; }
+.success-ttl { font-family:'Kanit',sans-serif; font-size:1.2rem; font-weight:800; color:#fff; margin-bottom:.35rem; }
+.success-sub { font-size:.82rem; color:rgba(255,255,255,.5); line-height:1.5; }
+
+/* ── UTILITIES ────────────────────────────────── */
+.divider-line {
+  height:1px; background:rgba(255,255,255,.07); margin:0;
+}
+
+@media (max-width:480px) {
+  .pkg-grid { gap:.6rem; }
+  .pkg { padding:1.1rem .8rem .9rem; }
+  .pkg-amount { font-size:1.6rem; }
+  .pkg-coin { width:52px; height:52px; }
+  .char-grid { gap:.6rem; }
+  .benefits-grid { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body data-protected="true">
+<nav id="site-nav" aria-label="Main"></nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<div class="tu-hero">
+  <div class="tu-particles" id="particles"></div>
+
+  <div class="tu-hero-badge">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F2A81D" stroke-width="2.5" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    ระบบเติมโทเคนพรีเมียม
+  </div>
+
+  <!-- animated coin SVG -->
+  <svg class="tu-hero-icon" viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="44" cy="44" r="42" fill="url(#cg1)" stroke="rgba(255,200,50,.4)" stroke-width="2"/>
+    <circle cx="44" cy="44" r="34" fill="none" stroke="rgba(255,220,80,.2)" stroke-width="1.5"/>
+    <text x="44" y="56" text-anchor="middle" font-size="32" font-family="serif" fill="#7A4200">฿</text>
+    <defs>
+      <radialGradient id="cg1" cx="38%" cy="30%" r="70%">
+        <stop offset="0%"  stop-color="#FFE87A"/>
+        <stop offset="55%" stop-color="#F2A81D"/>
+        <stop offset="100%" stop-color="#8A5600"/>
+      </radialGradient>
+    </defs>
+  </svg>
+
+  <h1>เติมโทเคน</h1>
+  <p class="tu-hero-sub">สะสมโทเคนเพื่อปลดล็อกตัวละครพิเศษและเข้าร่วมแคมเปญสุดพิเศษ</p>
+
+  <div class="balance-bar">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F2A81D" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+    <span class="balance-bar-label">ยอดคงเหลือ</span>
+    <span class="balance-bar-val" id="current-balance">—</span>
+    <span class="balance-bar-unit">โทเคน</span>
+  </div>
+</div>
+
+<!-- ═══════════════════ BODY ═══════════════════ -->
+<div class="tu-body">
+
+  <!-- ── แพ็กเกจโทเคน ──────────────────────── -->
+  <section>
+    <div class="sec-hd">
+      <div class="sec-hd-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F2A81D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+      </div>
+      <div class="sec-hd-text">
+        <h2>เลือกแพ็กเกจโทเคน</h2>
+        <p>ชำระครั้งเดียว ไม่มีสัญญา ไม่มีค่าบริการรายเดือน</p>
+      </div>
+    </div>
+
+    <div class="pkg-grid">
+
+      <!-- Bronze 100 -->
+      <div class="pkg pkg-bronze" id="pkg-100" onclick="openModal(100,29,'แพ็กเริ่มต้น','bronze')" role="button" tabindex="0">
+        <svg class="pkg-coin" style="--coin-glow:rgba(180,110,40,.5)" viewBox="0 0 64 64" fill="none">
+          <circle cx="32" cy="32" r="30" fill="url(#bc)"/>
+          <circle cx="32" cy="32" r="24" fill="none" stroke="rgba(255,180,80,.25)" stroke-width="1.5"/>
+          <text x="32" y="40" text-anchor="middle" font-size="20" font-family="serif" fill="#5A2A00">฿</text>
+          <defs><radialGradient id="bc" cx="38%" cy="30%" r="70%"><stop offset="0%" stop-color="#D4975A"/><stop offset="60%" stop-color="#9B5E2A"/><stop offset="100%" stop-color="#6B3A10"/></radialGradient></defs>
+        </svg>
+        <div class="pkg-amount">100</div>
+        <div class="pkg-unit">โทเคน</div>
+        <div class="pkg-name">แพ็กเริ่มต้น</div>
+        <div class="pkg-price">฿29</div>
+        <button class="pkg-btn btn-bronze" type="button">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          ซื้อเลย
+        </button>
+      </div>
+
+      <!-- Silver 300 -->
+      <div class="pkg pkg-silver" id="pkg-300" onclick="openModal(300,79,'ยอดนิยม','silver')" role="button" tabindex="0">
+        <span class="pkg-badge b-popular">ยอดนิยม</span>
+        <svg class="pkg-coin" style="--coin-glow:rgba(148,163,184,.45)" viewBox="0 0 64 64" fill="none">
+          <circle cx="32" cy="32" r="30" fill="url(#sc)"/>
+          <circle cx="32" cy="32" r="24" fill="none" stroke="rgba(200,220,240,.2)" stroke-width="1.5"/>
+          <text x="32" y="40" text-anchor="middle" font-size="20" font-family="serif" fill="#2A3A50">฿</text>
+          <defs><radialGradient id="sc" cx="38%" cy="30%" r="70%"><stop offset="0%" stop-color="#E8EDF2"/><stop offset="55%" stop-color="#8096AB"/><stop offset="100%" stop-color="#455A6E"/></radialGradient></defs>
+        </svg>
+        <div class="pkg-amount">300</div>
+        <div class="pkg-unit">โทเคน</div>
+        <div class="pkg-name">ยอดนิยม</div>
+        <div class="pkg-price">฿79</div>
+        <button class="pkg-btn btn-silver" type="button">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          ซื้อเลย
+        </button>
+      </div>
+
+      <!-- Gold 700 -->
+      <div class="pkg pkg-gold" id="pkg-700" onclick="openModal(700,149,'คุ้มค่าที่สุด','gold')" role="button" tabindex="0">
+        <span class="pkg-badge b-best">คุ้มค่า</span>
+        <svg class="pkg-coin" style="--coin-glow:rgba(242,168,29,.6)" viewBox="0 0 64 64" fill="none">
+          <circle cx="32" cy="32" r="30" fill="url(#gc)"/>
+          <circle cx="32" cy="32" r="24" fill="none" stroke="rgba(255,230,100,.3)" stroke-width="2"/>
+          <polygon points="32,16 35,27 47,27 37,34 40,46 32,39 24,46 27,34 17,27 29,27" fill="rgba(120,60,0,.5)"/>
+          <defs><radialGradient id="gc" cx="38%" cy="30%" r="70%"><stop offset="0%" stop-color="#FFE87A"/><stop offset="55%" stop-color="#F2A81D"/><stop offset="100%" stop-color="#8A5600"/></radialGradient></defs>
+        </svg>
+        <div class="pkg-amount">700</div>
+        <div class="pkg-unit">โทเคน</div>
+        <div class="pkg-name">คุ้มค่าที่สุด</div>
+        <div class="pkg-price">฿149</div>
+        <button class="pkg-btn btn-gold" type="button">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          ซื้อเลย
+        </button>
+      </div>
+
+      <!-- Purple 1500 -->
+      <div class="pkg pkg-purple" id="pkg-1500" onclick="openModal(1500,299,'พรีเมียม','purple')" role="button" tabindex="0">
+        <span class="pkg-badge b-premium">Premium</span>
+        <svg class="pkg-coin" style="--coin-glow:rgba(167,139,250,.6)" viewBox="0 0 64 64" fill="none">
+          <circle cx="32" cy="32" r="30" fill="url(#pc)"/>
+          <circle cx="32" cy="32" r="24" fill="none" stroke="rgba(200,180,255,.25)" stroke-width="1.5"/>
+          <polygon points="32,18 38,28 50,28 41,36 44,48 32,41 20,48 23,36 14,28 26,28" fill="rgba(80,20,160,.45)"/>
+          <defs><radialGradient id="pc" cx="38%" cy="30%" r="70%"><stop offset="0%" stop-color="#E9D5FF"/><stop offset="55%" stop-color="#7C3AED"/><stop offset="100%" stop-color="#4C1D95"/></radialGradient></defs>
+        </svg>
+        <div class="pkg-amount">1500</div>
+        <div class="pkg-unit">โทเคน</div>
+        <div class="pkg-name">พรีเมียม</div>
+        <div class="pkg-price">฿299</div>
+        <button class="pkg-btn btn-purple" type="button">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          ซื้อเลย
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider-line"></div>
+
+  <!-- ── ประโยชน์ของโทเคน ────────────────────── -->
+  <section>
+    <div class="sec-hd">
+      <div class="sec-hd-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F2A81D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+      </div>
+      <div class="sec-hd-text">
+        <h2>ประโยชน์ของโทเคน</h2>
+        <p>ทุกโทเคนมีคุณค่าในการผจญภัย</p>
+      </div>
+    </div>
+    <div class="benefits-grid">
+      <div class="benefit-card">
+        <div class="benefit-icon" style="background:rgba(124,58,237,.15);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="2" stroke-linecap="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div>
+          <div class="benefit-title">ปลดล็อกตัวละคร</div>
+          <div class="benefit-desc">ซื้อตัวละครพิเศษในร้านค้า เช่น ซาเอล และ ลูน่า</div>
+        </div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon" style="background:rgba(31,122,92,.15);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div>
+          <div class="benefit-title">เข้าร่วมแคมเปญ</div>
+          <div class="benefit-desc">เช็คอินสถานที่ท่องเที่ยวรับโบนัสโทเคนพิเศษ</div>
+        </div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon" style="background:rgba(242,168,29,.12);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FBBF24" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <div>
+          <div class="benefit-title">ตัวคูณโทเคน ×2–×3</div>
+          <div class="benefit-desc">ตัวละครพิเศษเพิ่มโทเคนจากเควสท์อัตโนมัติ</div>
+        </div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon" style="background:rgba(14,165,233,.12);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div>
+          <div class="benefit-title">ไม่มีวันหมดอายุ</div>
+          <div class="benefit-desc">สะสมและใช้โทเคนได้ตลอดเวลา ไม่มีเงื่อนไขหมดอายุ</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider-line"></div>
+
+  <!-- ── ตัวละครร้านค้า ─────────────────────── -->
+  <section>
+    <div class="sec-hd">
+      <div class="sec-hd-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F2A81D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      </div>
+      <div class="sec-hd-text">
+        <h2>ตัวละครร้านค้า</h2>
+        <p>ซื้อด้วยโทเคนที่สะสมได้ทันที</p>
+      </div>
+    </div>
+    <div class="char-grid">
+
+      <!-- ซาเอล -->
+      <div class="char-card cc-zael">
+        <div class="char-card-img">
+          <img src="/assets/img/สกรีนช็อต 2026-10-25 003816.png" alt="พ่อมดกลางคืน ซาเอล" loading="lazy">
+        </div>
+        <div class="char-card-body">
+          <div class="char-card-name">พ่อมดกลางคืน<br><span style="color:#C4B5FD;">ซาเอล</span></div>
+          <div class="char-card-rarity" style="display:flex;align-items:center;gap:.3rem;">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="#C4B5FD"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Legendary &nbsp;·&nbsp; ×3 โทเคน/เควสท์
+          </div>
+          <div class="char-card-price" style="background:rgba(124,58,237,.15);color:#C4B5FD;border:1px solid rgba(124,58,237,.3);border-radius:9px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C4B5FD" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            500 โทเคน
+          </div>
+          <button class="char-card-btn btn-buy-zael" onclick="openModal(500,0,'ซื้อตัวละคร ซาเอล','purple')" type="button">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            ซื้อตัวละคร
+          </button>
+        </div>
+      </div>
+
+      <!-- ลูน่า -->
+      <div class="char-card cc-luna">
+        <div class="char-card-img">
+          <img src="/assets/img/สกรีนช็อต 2026-10-25 003807.png" alt="พ่อมดแห่งวัด ลูน่า" loading="lazy">
+        </div>
+        <div class="char-card-body">
+          <div class="char-card-name">พ่อมดแห่งวัด<br><span style="color:#FCA5A5;">ลูน่า</span></div>
+          <div class="char-card-rarity" style="display:flex;align-items:center;gap:.3rem;">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="#FCA5A5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Rare &nbsp;·&nbsp; ×2.5 โทเคน/เควสท์
+          </div>
+          <div class="char-card-price" style="background:rgba(239,68,68,.12);color:#FCA5A5;border:1px solid rgba(239,68,68,.3);border-radius:9px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FCA5A5" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            350 โทเคน
+          </div>
+          <button class="char-card-btn btn-buy-luna" onclick="openModal(350,0,'ซื้อตัวละคร ลูน่า','bronze')" type="button">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            ซื้อตัวละคร
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider-line"></div>
+
+  <!-- ── ตัวละครฟรีจากแคมเปญ ────────────────── -->
+  <section>
+    <div class="sec-hd">
+      <div class="sec-hd-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F2A81D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+      </div>
+      <div class="sec-hd-text">
+        <h2>รับตัวละครฟรีจากแคมเปญ</h2>
+        <p>เช็คอินครบเงื่อนไข รับตัวละคร Epic ฟรีทันที</p>
+      </div>
+    </div>
+    <div class="char-grid">
+
+      <!-- เรย์ -->
+      <div class="char-card cc-ray">
+        <span class="free-tag">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/></svg>
+          ฟรี
+        </span>
+        <div class="char-card-img">
+          <img src="/assets/img/สกรีนช็อต 2026-10-25 003801.png" alt="นักสำรวจ เรย์" loading="lazy">
+        </div>
+        <div class="char-card-body">
+          <div class="char-card-name">นักสำรวจ<br><span style="color:#93C5FD;">เรย์</span></div>
+          <div class="char-card-rarity" style="display:flex;align-items:center;gap:.3rem;">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="#93C5FD"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Epic &nbsp;·&nbsp; ×2 โทเคน/เควสท์
+          </div>
+          <div class="char-card-price" style="background:rgba(59,130,246,.12);color:#93C5FD;border:1px solid rgba(59,130,246,.3);border-radius:9px;font-size:.78rem;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#93C5FD" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/></svg>
+            เช็คอิน 5 สถานที่
+          </div>
+          <a href="/collection.html" class="char-card-btn btn-join-ray" style="text-decoration:none;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            ดูแคมเปญ
+          </a>
+        </div>
+      </div>
+
+      <!-- มายา -->
+      <div class="char-card cc-maya">
+        <span class="free-tag">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/></svg>
+          ฟรี
+        </span>
+        <div class="char-card-img">
+          <img src="/assets/img/สกรีนช็อต 2026-10-25 003811.png" alt="นักสำรวจ มายา" loading="lazy">
+        </div>
+        <div class="char-card-body">
+          <div class="char-card-name">นักสำรวจ<br><span style="color:#6EE7B7;">มายา</span></div>
+          <div class="char-card-rarity" style="display:flex;align-items:center;gap:.3rem;">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="#6EE7B7"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Epic &nbsp;·&nbsp; ×2 โทเคน/เควสท์
+          </div>
+          <div class="char-card-price" style="background:rgba(16,185,129,.12);color:#6EE7B7;border:1px solid rgba(16,185,129,.3);border-radius:9px;font-size:.78rem;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6EE7B7" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/></svg>
+            เช็คอิน 4 สถานที่ริมน้ำ
+          </div>
+          <a href="/collection.html" class="char-card-btn btn-join-maya" style="text-decoration:none;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            ดูแคมเปญ
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider-line"></div>
+
+  <!-- ── FAQ ───────────────────────────────────── -->
+  <section>
+    <div class="sec-hd">
+      <div class="sec-hd-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F2A81D" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17" stroke-width="3"/></svg>
+      </div>
+      <div class="sec-hd-text">
+        <h2>คำถามที่พบบ่อย</h2>
+        <p>ข้อสงสัยเกี่ยวกับระบบโทเคน</p>
+      </div>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item" id="faq1">
+        <button class="faq-q" onclick="toggleFaq('faq1')">โทเคนมีวันหมดอายุไหม?<svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-a">โทเคนที่ซื้อหรือสะสมจากเควสท์ไม่มีวันหมดอายุ ใช้ได้ตลอดเวลาที่บัญชียังมีอยู่ในระบบ Travel and Challenge</div>
+      </div>
+      <div class="faq-item" id="faq2">
+        <button class="faq-q" onclick="toggleFaq('faq2')">สามารถโอนโทเคนให้ผู้อื่นได้ไหม?<svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-a">ขณะนี้ยังไม่รองรับการโอนโทเคนระหว่างบัญชี เราอยู่ในระหว่างพัฒนาฟีเจอร์นี้และจะแจ้งให้ทราบเมื่อพร้อมใช้งาน</div>
+      </div>
+      <div class="faq-item" id="faq3">
+        <button class="faq-q" onclick="toggleFaq('faq3')">ชำระเงินแล้วโทเคนไม่เข้า ต้องทำอย่างไร?<svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-a">ทีมงานจะตรวจสอบสลิปภายใน 24 ชั่วโมง หากเกินนั้นกรุณาติดต่อ support@travelchallenge.th พร้อมแนบสลิปการโอนเงิน</div>
+      </div>
+      <div class="faq-item" id="faq4">
+        <button class="faq-q" onclick="toggleFaq('faq4')">ได้โทเคนฟรีได้อย่างไร?<svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-a">สะสมโทเคนฟรีจากการเช็คอินสถานที่ท่องเที่ยว ทำเควสท์ เข้าร่วมแคมเปญ และปลดล็อกความสำเร็จต่างๆ ในระบบ</div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /.tu-body -->
+
+<!-- ═══════════════════ MODAL ══════════════════ -->
+<div class="modal-overlay" id="payment-modal" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()" aria-label="ปิด">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+
+    <div class="modal-summary" id="modal-summary"><!-- filled by JS --></div>
+
+    <div class="modal-label">เลือกวิธีชำระเงิน</div>
+    <div class="pay-grid">
+      <div class="pay-opt sel" id="pm-qr" onclick="selectPay('qr')">
+        <div class="pay-opt-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="3" height="3"/><rect x="18" y="18" width="3" height="3"/><rect x="14" y="18" width="3" height="3"/><rect x="18" y="14" width="3" height="3"/></svg>
+        </div>
+        QR พร้อมเพย์
+      </div>
+      <div class="pay-opt" id="pm-transfer" onclick="selectPay('transfer')">
+        <div class="pay-opt-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+        </div>
+        โอนธนาคาร
+      </div>
+      <div class="pay-opt" id="pm-truemoney" onclick="selectPay('truemoney')">
+        <div class="pay-opt-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFD000" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 8v8"/></svg>
+        </div>
+        TrueMoney
+      </div>
+      <div class="pay-opt" id="pm-credit" onclick="selectPay('credit')">
+        <div class="pay-opt-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        </div>
+        บัตรเครดิต
+      </div>
+    </div>
+
+    <div class="qr-box" id="qr-section">
+      <div class="qr-frame">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="5" y="5" width="35" height="35" rx="3" stroke="#333" stroke-width="4" fill="none"/>
+          <rect x="13" y="13" width="19" height="19" fill="#555"/>
+          <rect x="60" y="5" width="35" height="35" rx="3" stroke="#333" stroke-width="4" fill="none"/>
+          <rect x="68" y="13" width="19" height="19" fill="#555"/>
+          <rect x="5" y="60" width="35" height="35" rx="3" stroke="#333" stroke-width="4" fill="none"/>
+          <rect x="13" y="68" width="19" height="19" fill="#555"/>
+          <rect x="60" y="60" width="6" height="6" fill="#555"/>
+          <rect x="72" y="60" width="6" height="6" fill="#555"/>
+          <rect x="84" y="60" width="11" height="6" fill="#555"/>
+          <rect x="60" y="72" width="6" height="6" fill="#555"/>
+          <rect x="72" y="72" width="6" height="6" fill="#555"/>
+          <rect x="84" y="72" width="6" height="6" fill="#555"/>
+          <rect x="60" y="84" width="11" height="11" fill="#555"/>
+          <rect x="78" y="84" width="17" height="11" fill="#555"/>
+        </svg>
+      </div>
+      <div class="qr-note">สแกน QR ด้วยแอปธนาคาร แล้วแนบสลิปด้านล่าง</div>
+    </div>
+
+    <label class="slip-drop" onclick="document.getElementById('slip-file').click()">
+      <input type="file" id="slip-file" accept="image/*" onchange="previewSlip(this)">
+      <div class="slip-drop-ico">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.8" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      </div>
+      <div class="slip-drop-txt"><strong>แนบสลิปการชำระเงิน</strong><br>คลิกเพื่ออัปโหลด (JPG, PNG)</div>
+      <img id="slip-preview" alt="slip">
+    </label>
+
+    <button class="modal-cta" id="modal-submit" onclick="submitTopup()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+      ยืนยันการเติมโทเคน
+    </button>
+  </div>
+</div>
+
+<!-- ═══════════════════ SUCCESS ════════════════ -->
+<div class="success-wrap" id="success-wrap">
+  <div class="success-card">
+    <div class="success-ico">
+      <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2" stroke-linecap="round">
+        <circle cx="12" cy="12" r="10" fill="rgba(31,122,92,.2)"/>
+        <polyline points="9 12 11.5 14.5 15.5 9.5" stroke-width="2.5"/>
+      </svg>
+    </div>
+    <div class="success-ttl" id="success-ttl">ส่งคำขอแล้ว!</div>
+    <div class="success-sub" id="success-sub">ทีมงานจะตรวจสอบและเติมโทเคนภายใน 24 ชั่วโมง ขอบคุณที่ใช้บริการ</div>
+  </div>
+</div>
+
+<footer id="site-footer"></footer>
+<script type="module" src="/js/app.js"></script>
+<script type="module">
+import { supabase } from '/js/supabase.js';
+(async () => {
+  try {
+    const { data: s } = await supabase.auth.getSession();
+    if (!s?.session) return;
+    const { data: bal } = await supabase.rpc('my_token_balance');
+    const el = document.getElementById('current-balance');
+    if (el) el.textContent = bal != null ? Number(bal).toLocaleString('th-TH') : '0';
+  } catch(e) {
+    console.warn('balance:', e);
+  }
+})();
+</script>
+<script>
+// ── Particles ────────────────────────────────────────────────────────────────
+(function(){
+  const wrap = document.getElementById('particles');
+  if (!wrap) return;
+  const colors = ['rgba(242,168,29,.6)','rgba(255,220,80,.4)','rgba(31,122,92,.5)'];
+  for (let i=0; i<12; i++) {
+    const d = document.createElement('div');
+    const size = 3 + Math.random()*5;
+    d.className = 'tu-particle';
+    d.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      bottom:0;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      animation-duration:${4+Math.random()*6}s;
+      animation-delay:${Math.random()*4}s;
+    `;
+    wrap.appendChild(d);
+  }
+})();
+
+// ── Modal ────────────────────────────────────────────────────────────────────
+let currentPkg = null;
+let currentPay = 'qr';
+
+const COIN_SVGS = {
+  bronze:`<svg width="48" height="48" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="30" fill="url(#mb)"/><text x="32" y="40" text-anchor="middle" font-size="18" font-family="serif" fill="#5A2A00">฿</text><defs><radialGradient id="mb" cx="38%" cy="30%" r="70%"><stop offset="0%" stop-color="#D4975A"/><stop offset="100%" stop-color="#6B3A10"/></radialGradient></defs></svg>`,
+  silver:`<svg width="48" height="48" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="30" fill="url(#ms)"/><text x="32" y="40" text-anchor="middle" font-size="18" font-family="serif" fill="#2A3A50">฿</text><defs><radialGradient id="ms" cx="38%" cy="30%" r="70%"><stop offset="0%" stop-color="#E8EDF2"/><stop offset="100%" stop-color="#455A6E"/></radialGradient></defs></svg>`,
+  gold:  `<svg width="48" height="48" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="30" fill="url(#mg)"/><polygon points="32,18 35,27 45,27 37,33 40,43 32,37 24,43 27,33 19,27 29,27" fill="rgba(120,60,0,.5)"/><defs><radialGradient id="mg" cx="38%" cy="30%" r="70%"><stop offset="0%" stop-color="#FFE87A"/><stop offset="55%" stop-color="#F2A81D"/><stop offset="100%" stop-color="#8A5600"/></radialGradient></defs></svg>`,
+  purple:`<svg width="48" height="48" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="30" fill="url(#mp)"/><polygon points="32,18 37,28 48,28 40,35 43,46 32,40 21,46 24,35 16,28 27,28" fill="rgba(80,20,160,.4)"/><defs><radialGradient id="mp" cx="38%" cy="30%" r="70%"><stop offset="0%" stop-color="#E9D5FF"/><stop offset="55%" stop-color="#7C3AED"/><stop offset="100%" stop-color="#4C1D95"/></radialGradient></defs></svg>`,
+};
+
+function openModal(tokens, price, name, tier) {
+  currentPkg = { tokens, price, name, tier };
+  const priceLabel = price > 0 ? `฿${price} บาท` : `${tokens} โทเคนคงเหลือ`;
+  document.getElementById('modal-summary').innerHTML = `
+    ${COIN_SVGS[tier] || COIN_SVGS.gold}
+    <div>
+      <div class="modal-sum-name">${name}</div>
+      <div class="modal-sum-sub">${tokens > 0 && price > 0 ? tokens.toLocaleString()+' โทเคน · ' : ''}${priceLabel}</div>
+    </div>`;
+  document.getElementById('payment-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  selectPay('qr');
+}
+function closeModal() {
+  document.getElementById('payment-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('payment-modal')) closeModal();
+}
+function selectPay(m) {
+  currentPay = m;
+  ['qr','transfer','truemoney','credit'].forEach(k =>
+    document.getElementById('pm-'+k)?.classList.toggle('sel', k===m)
+  );
+  const qr = document.getElementById('qr-section');
+  if (qr) qr.style.display = m==='qr' ? 'block' : 'none';
+}
+function previewSlip(inp) {
+  const f = inp.files[0]; if (!f) return;
+  const r = new FileReader();
+  r.onload = e => {
+    const img = document.getElementById('slip-preview');
+    img.src = e.target.result; img.style.display = 'block';
+    document.querySelector('.slip-drop-txt').textContent = f.name;
+  };
+  r.readAsDataURL(f);
+}
+function submitTopup() {
+  if (!currentPkg) return;
+  const btn = document.getElementById('modal-submit');
+  btn.disabled = true;
+  btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> กำลังส่ง…`;
+  setTimeout(() => {
+    closeModal();
+    const w = document.getElementById('success-wrap');
+    document.getElementById('success-ttl').textContent =
+      currentPkg.price > 0
+        ? `ส่งคำขอเติม ${currentPkg.tokens.toLocaleString()} โทเคนแล้ว`
+        : `ส่งคำขอซื้อตัวละครแล้ว`;
+    w.classList.add('show');
+    btn.disabled = false;
+    btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> ยืนยันการเติมโทเคน`;
+    setTimeout(() => w.classList.remove('show'), 3500);
+  }, 1400);
+}
+function toggleFaq(id) {
+  document.getElementById(id)?.classList.toggle('open');
+}
+
+// Keyboard accessibility for pkg cards
+document.querySelectorAll('.pkg').forEach(el => {
+  el.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' ') el.click(); });
+});
+</script>
+</body>
+</html>

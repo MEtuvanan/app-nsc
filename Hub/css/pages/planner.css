@@ -1,0 +1,848 @@
+/* ==========================================================================
+   AI Trip Planner & Chatbot 3.0 — Centered Modern Interface
+   ========================================================================== */
+
+.planner-main-section {
+  min-height: calc(100vh - 72px);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: radial-gradient(circle at 50% 15%, rgba(13, 148, 136, 0.08) 0%, transparent 60%),
+              radial-gradient(circle at 85% 80%, rgba(245, 158, 11, 0.05) 0%, transparent 50%),
+              var(--color-bg);
+}
+
+/* ── Top Bar Controls ─────────────────────────────────────────────────────── */
+.planner-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  padding-bottom: 0.5rem;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.topbar-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-forest);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.topbar-btn:hover {
+  background: #fff;
+  border-color: var(--color-emerald);
+  color: var(--color-emerald);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-soft);
+}
+
+.topbar-btn .badge {
+  background: var(--color-emerald-tint);
+  color: var(--color-emerald);
+  font-size: 0.75rem;
+  padding: 0.15rem 0.45rem;
+  border-radius: 10px;
+}
+
+/* ── 1. Centered Hero Landing View (Initial State) ─────────────────────────── */
+.ai-hero-centered {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 820px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 4rem;
+  text-align: center;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.ai-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 1rem;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(135deg, rgba(13, 148, 136, 0.12), rgba(245, 158, 11, 0.12));
+  border: 1px solid rgba(13, 148, 136, 0.25);
+  color: var(--color-emerald);
+  font-weight: 700;
+  font-size: 0.88rem;
+  letter-spacing: 0.02em;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 2px 8px rgba(13, 148, 136, 0.08);
+}
+
+.ai-sparkle-anim {
+  display: inline-block;
+  animation: sparkleRotate 3s infinite ease-in-out;
+}
+
+@keyframes sparkleRotate {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.25) rotate(15deg); }
+}
+
+.ai-hero-title {
+  font-size: clamp(1.85rem, 4vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+  color: var(--color-forest);
+  margin-bottom: 0.75rem;
+}
+
+.ai-hero-subtitle {
+  font-size: clamp(0.95rem, 2vw, 1.15rem);
+  color: var(--color-muted);
+  max-width: 620px;
+  line-height: 1.6;
+  margin: 0 auto 2.25rem;
+}
+
+/* ── Central Input Box ─────────────────────────────────────────────────────── */
+.ai-central-box {
+  width: 100%;
+  max-width: 740px;
+}
+
+.ai-prompt-form {
+  width: 100%;
+}
+
+.ai-input-container {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.75rem;
+  background: #ffffff;
+  border: 1.5px solid rgba(13, 148, 136, 0.3);
+  border-radius: 22px;
+  padding: 0.65rem 0.85rem 0.65rem 1.25rem;
+  box-shadow: 0 12px 32px -8px rgba(13, 148, 136, 0.14), 0 4px 16px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ai-input-container:focus-within {
+  border-color: var(--color-emerald);
+  box-shadow: 0 16px 40px -8px rgba(13, 148, 136, 0.22), 0 0 0 4px rgba(13, 148, 136, 0.12);
+}
+
+.ai-input-container textarea {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: inherit;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: var(--color-forest);
+  resize: none;
+  max-height: 160px;
+  padding: 0.35rem 0;
+  box-sizing: border-box;
+}
+
+.ai-input-container textarea::placeholder {
+  color: #94a3b8;
+  font-size: 0.98rem;
+}
+
+.ai-send-action-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, var(--color-emerald), #0f766e);
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ai-send-action-btn:hover:not(:disabled) {
+  transform: scale(1.06);
+  box-shadow: 0 6px 18px rgba(13, 148, 136, 0.4);
+}
+
+.ai-send-action-btn:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+.ai-send-action-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ── Suggestion Pills ──────────────────────────────────────────────────────── */
+.ai-prompt-pills {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  margin-top: 1.4rem;
+}
+
+.pills-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+.pill-btn {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid var(--color-border);
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.85rem;
+  color: var(--color-forest);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(8px);
+}
+
+.pill-btn:hover {
+  background: var(--color-emerald-tint);
+  border-color: var(--color-emerald);
+  color: var(--color-emerald);
+  transform: translateY(-1px);
+}
+
+/* ── 2. Active Chat View ──────────────────────────────────────────────────── */
+.ai-chat-view {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  max-width: 860px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0.75rem 1rem 8rem;
+}
+
+.chat-messages-scroll {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem 0;
+}
+
+/* Chat Message Row */
+.chat-row {
+  display: flex;
+  gap: 0.85rem;
+  width: 100%;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.chat-row.user-row {
+  justify-content: flex-end;
+}
+
+.chat-row.ai-row {
+  justify-content: flex-start;
+}
+
+.chat-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  font-size: 1rem;
+}
+
+.chat-row.ai-row .chat-avatar {
+  background: linear-gradient(135deg, rgba(13, 148, 136, 0.2), rgba(245, 158, 11, 0.2));
+  border: 1px solid rgba(13, 148, 136, 0.3);
+  color: var(--color-emerald);
+}
+
+.chat-row.user-row .chat-avatar {
+  background: var(--color-forest);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.chat-bubble {
+  max-width: 82%;
+  padding: 1rem 1.25rem;
+  border-radius: 18px;
+  line-height: 1.6;
+  font-size: 0.98rem;
+  word-break: break-word;
+}
+
+.chat-row.user-row .chat-bubble {
+  background: linear-gradient(135deg, var(--color-forest), #1e3a34);
+  color: #ffffff;
+  border-bottom-right-radius: 4px;
+  box-shadow: 0 4px 12px rgba(15, 34, 30, 0.15);
+}
+
+.chat-row.ai-row .chat-bubble {
+  background: #ffffff;
+  color: var(--color-forest);
+  border: 1px solid var(--color-border);
+  border-bottom-left-radius: 4px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+/* Markdown formatting in AI Chat Bubble */
+.chat-bubble h1, .chat-bubble h2, .chat-bubble h3 {
+  color: var(--color-forest);
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.chat-bubble h2 { font-size: 1.25rem; }
+.chat-bubble h3 { font-size: 1.1rem; }
+
+.chat-bubble p {
+  margin-bottom: 0.65rem;
+}
+
+.chat-bubble p:last-child {
+  margin-bottom: 0;
+}
+
+.chat-bubble ul, .chat-bubble ol {
+  padding-left: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.chat-bubble li {
+  margin-bottom: 0.35rem;
+}
+
+.chat-bubble table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.85rem 0;
+  font-size: 0.9rem;
+}
+
+.chat-bubble th, .chat-bubble td {
+  border: 1px solid var(--color-border);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+.chat-bubble th {
+  background: var(--color-surface-soft);
+  font-weight: 700;
+}
+
+.chat-bubble strong {
+  font-weight: 700;
+  color: var(--color-forest);
+}
+
+.chat-row.user-row .chat-bubble strong {
+  color: #ffffff;
+}
+
+/* Typing Indicator */
+.typing-dots {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  padding: 0.4rem 0.2rem;
+}
+
+.typing-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-emerald);
+  animation: typingBounce 1.4s infinite ease-in-out both;
+}
+
+.typing-dot:nth-child(1) { animation-delay: -0.32s; }
+.typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes typingBounce {
+  0%, 80%, 100% { transform: scale(0); opacity: 0.4; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+/* ── Interactive Itinerary Card Component ─────────────────────────────────── */
+.itinerary-card {
+  margin-top: 1.25rem;
+  background: var(--color-surface-soft);
+  border: 1.5px solid rgba(13, 148, 136, 0.25);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px -6px rgba(13, 148, 136, 0.12);
+}
+
+.itinerary-card-header {
+  background: linear-gradient(135deg, rgba(13, 148, 136, 0.12), rgba(245, 158, 11, 0.08));
+  padding: 1.15rem 1.35rem;
+  border-bottom: 1px solid rgba(13, 148, 136, 0.15);
+}
+
+.itinerary-badge-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+
+.itinerary-card-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--color-forest);
+  margin: 0 0 0.35rem 0;
+}
+
+.itinerary-card-summary {
+  font-size: 0.92rem;
+  color: var(--color-muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Day Tabs */
+.itinerary-day-tabs {
+  display: flex;
+  gap: 0.4rem;
+  padding: 0.75rem 1.25rem 0;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--color-border);
+  background: #ffffff;
+}
+
+.day-tab-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.day-tab-btn.active {
+  color: var(--color-emerald);
+  border-bottom-color: var(--color-emerald);
+}
+
+/* Timeline Stops */
+.itinerary-stops-list {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: #ffffff;
+}
+
+.itinerary-stop-item {
+  display: flex;
+  gap: 1rem;
+  position: relative;
+}
+
+.itinerary-stop-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 36px;
+  left: 17px;
+  bottom: -16px;
+  width: 2px;
+  background: #e2e8f0;
+}
+
+.stop-number-badge {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-emerald-tint);
+  border: 1.5px solid var(--color-emerald);
+  color: var(--color-emerald);
+  font-weight: 800;
+  font-size: 0.95rem;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+.stop-details-body {
+  flex: 1;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-small);
+  padding: 0.85rem 1rem;
+  transition: all 0.2s;
+}
+
+.stop-details-body:hover {
+  background: #ffffff;
+  border-color: rgba(13, 148, 136, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.stop-meta-line {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  color: var(--color-muted);
+  margin-bottom: 0.25rem;
+}
+
+.stop-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-forest);
+  margin: 0 0 0.35rem 0;
+}
+
+.stop-why {
+  font-size: 0.88rem;
+  color: #475569;
+  line-height: 1.5;
+  margin-bottom: 0.4rem;
+}
+
+.stop-notes {
+  font-size: 0.82rem;
+  color: var(--color-muted);
+  font-style: italic;
+  margin-bottom: 0.5rem;
+}
+
+.stop-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.btn-stop-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-stop-nav {
+  background: var(--color-emerald-tint);
+  border: 1px solid var(--color-emerald);
+  color: var(--color-emerald);
+}
+
+.btn-stop-nav:hover {
+  background: var(--color-emerald);
+  color: #fff;
+}
+
+.btn-stop-info {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+}
+
+.btn-stop-info:hover {
+  background: #e2e8f0;
+}
+
+/* Itinerary Card Footer */
+.itinerary-card-footer {
+  padding: 0.85rem 1.25rem;
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.btn-itinerary-save {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1.1rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-forest);
+  color: #fff;
+  border: none;
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-itinerary-save:hover {
+  background: #1e3a34;
+  transform: translateY(-1px);
+}
+
+.btn-itinerary-map {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1.1rem;
+  border-radius: var(--radius-pill);
+  background: #ffffff;
+  border: 1.5px solid var(--color-emerald);
+  color: var(--color-emerald);
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-itinerary-map:hover {
+  background: var(--color-emerald-tint);
+}
+
+/* ── Sticky Bottom Input Bar ──────────────────────────────────────────────── */
+.chat-bottom-input-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, var(--color-bg) 75%, transparent 100%);
+  padding: 1rem 1rem 1.25rem;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+}
+
+.chat-bottom-input-bar .ai-prompt-form {
+  max-width: 820px;
+}
+
+/* ── Slide-Over Saved Trips Drawer ────────────────────────────────────────── */
+.saved-trips-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.drawer-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s ease;
+}
+
+.drawer-content {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  height: 100%;
+  background: #ffffff;
+  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  z-index: 2;
+  border-radius: 0;
+  animation: slideLeft 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideLeft {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.drawer-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--color-forest);
+}
+
+.drawer-close-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: var(--color-muted);
+}
+
+.drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.25rem 1.5rem;
+}
+
+.saved-trips-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.saved-trip-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.85rem 1rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-small);
+  transition: all 0.2s;
+}
+
+.saved-trip-item:hover {
+  background: #ffffff;
+  border-color: var(--color-emerald);
+  box-shadow: var(--shadow-soft);
+}
+
+.saved-trip-item a {
+  font-weight: 700;
+  color: var(--color-forest);
+  text-decoration: none;
+  display: block;
+}
+
+.saved-trip-item .meta {
+  font-size: 0.8rem;
+  color: var(--color-muted);
+}
+
+.btn-del-trip {
+  background: transparent;
+  border: none;
+  color: #ef4444;
+  cursor: pointer;
+  padding: 0.35rem 0.5rem;
+  font-size: 0.9rem;
+  border-radius: 4px;
+}
+
+.btn-del-trip:hover {
+  background: #fee2e2;
+}
+
+/* ── Route Map Modal ──────────────────────────────────────────────────────── */
+.itinerary-map-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+}
+
+.map-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+}
+
+.map-modal-card {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  height: 80vh;
+  max-height: 650px;
+  background: #ffffff;
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  z-index: 2;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.2);
+}
+
+.map-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.map-modal-header h3 {
+  margin: 0;
+  font-size: 1.15rem;
+  color: var(--color-forest);
+}
+
+.map-modal-close {
+  background: transparent;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: var(--color-muted);
+}
+
+.itinerary-leaflet-map {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Mobile responsiveness ────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .ai-hero-centered {
+    padding: 1.5rem 1rem 3rem;
+  }
+  .ai-hero-title {
+    font-size: 1.65rem;
+  }
+  .ai-input-container {
+    padding: 0.5rem 0.65rem 0.5rem 1rem;
+    border-radius: 18px;
+  }
+  .chat-bubble {
+    max-width: 92%;
+    padding: 0.85rem 1rem;
+    font-size: 0.92rem;
+  }
+  .itinerary-card-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .btn-itinerary-save, .btn-itinerary-map {
+    justify-content: center;
+  }
+}

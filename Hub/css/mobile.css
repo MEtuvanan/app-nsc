@@ -1,0 +1,87 @@
+/* Small-screen behavior. Touch targets are >= 44px (see .btn, inputs in base.css). */
+@media (max-width: 899px) {
+  .nav-toggle { display: block; }
+  #site-nav { position: sticky; top: 0; z-index: 50; flex-wrap: wrap; }
+  .nav-toggle {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border: 1.5px solid rgba(255,255,255,.35);
+    border-radius: var(--radius-small);
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+  .nav-toggle:hover { background: rgba(255,255,255,.12); }
+  #site-nav.open .nav-toggle { background: var(--color-gold); color: var(--color-forest); border-color: var(--color-gold); }
+  .nav-links {
+    display: none; width: 100%; order: 3; flex-direction: column; align-items: stretch; gap: 0; padding: .25rem 4% 1rem;
+    background: var(--color-forest); border-top: 1px solid rgba(255,255,255,.15);
+  }
+  #site-nav.open .nav-links { display: flex; }
+  .nav-links li { border-bottom: 1px solid rgba(255,255,255,.08); }
+  .nav-links li:last-child { border-bottom: 0; }
+  .nav-links a:not(.btn) { min-height: 48px; padding: .75rem .25rem; border-bottom: 0; font-size: 1rem; }
+  .nav-links a[aria-current=page] { color: var(--color-gold); }
+  .nav-links .btn-lang { margin: .6rem 0 .25rem; min-height: 44px !important; }
+  #nav-auth { padding: .25rem 0 .5rem; }
+  #nav-auth .nav-user-pill { min-height: 44px; }
+  .nav-links a:not(.btn) { display: block; padding: .85rem .5rem; }
+  .nav-links li { width: 100%; }
+  .nav-links .btn { width: 100%; margin-top: .5rem; }
+}
+@media (max-width: 767px) {
+  /* Base resets */
+  .grid { grid-template-columns: 1fr; }
+  .split > * + * { margin-top: var(--space-5); }
+  .hero-actions { display: flex; flex-direction: column; gap: .75rem; }
+  .hero-actions .btn { width: 100%; }
+  .chip-quest { left: 8px; top: 12px; }
+  .chip-reward { right: 8px; bottom: 12px; }
+  .hero-stats { gap: 1rem; }
+  .hero-stat-sep { display: none; }
+  dialog.modal { padding: var(--space-4); width: 94vw; }
+  #toast-region { left: 1rem; right: 1rem; max-width: none; }
+
+  /* Explore — stacked on mobile */
+  .explore { overflow: visible; height: auto; }
+  .filters { grid-template-columns: 1fr 1fr; gap: var(--space-2); padding: var(--space-3) 4%; }
+  .explore-body { grid-template-columns: 1fr; }
+  .map-pane { height: 260px; }
+  .map { height: 100%; }
+  .list-pane { padding: var(--space-3); }
+
+  /* Place detail */
+  .place-map { height: 220px; }
+
+  /* Quests */
+  .quest-filters { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); }
+
+  /* Journal */
+  .journal-bar { display: flex; flex-direction: column; gap: var(--space-3); }
+  .thumbs { flex-wrap: wrap; }
+
+  /* Calendar */
+  .cal-grid { font-size: .8rem; }
+  .cal-head { gap: var(--space-2); }
+
+  /* Planner */
+  .planner { grid-template-columns: 1fr; }
+  .planner-map { height: 240px; }
+  .row2 { display: flex; flex-direction: column; }
+
+  /* Collection */
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+
+  /* Admin */
+  .admin-tabs { display: flex; flex-direction: column; }
+  .admin-tabs .tab-btn { border-radius: 0; border-bottom: 1px solid var(--color-border); }
+
+  /* Profile */
+  .profile-layout { grid-template-columns: 1fr; }
+  .profile-card { text-align: center; }
+
+  /* Tables — horizontally scrollable */
+  .table-wrap { border-radius: 0; }
+}
+
