@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 360" role="img" aria-label="Route through green hills">
-  <rect width="480" height="360" rx="22" fill="#E6F6EE"/>
-  <path d="M0 290 Q120 190 240 270 T480 230 V360 H0Z" fill="#00A86B" opacity=".35"/>
-  <path d="M0 320 Q150 240 280 305 T480 290 V360 H0Z" fill="#1A3E2F"/>
-  <path d="M70 300 C140 240 190 280 250 215 S370 190 410 120" fill="none" stroke="#fff" stroke-width="5" stroke-dasharray="3 12" stroke-linecap="round"/>
-  <circle cx="410" cy="112" r="16" fill="#00A86B"/><circle cx="410" cy="112" r="6" fill="#fff"/>
-  <circle cx="70" cy="300" r="10" fill="#fff" stroke="#1A3E2F" stroke-width="4"/>
-</svg>
