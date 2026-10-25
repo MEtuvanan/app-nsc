@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>คู่มือการใช้งาน — Travel and Challenge</title>
+  <meta name="description" content="คู่มือการใช้งานแอป Travel and Challenge อธิบายทุกหน้าและทุกฟีเจอร์อย่างละเอียด">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/desktop.css">
+  <link rel="stylesheet" href="/css/mobile.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <style>
+    /* ── Help Center Styles ── */
+    .help-hero {
+      background: linear-gradient(135deg, var(--color-forest) 0%, var(--color-forest-light) 100%);
+      color: #fff;
+      padding: clamp(3rem, 6vw, 5rem) 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .help-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=1600&auto=format&fit=crop&q=50') center/cover;
+      opacity: 0.12;
+    }
+
+    .help-hero-inner {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .help-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .35rem 1rem;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: var(--radius-pill);
+      font-size: .85rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 1.25rem;
+      backdrop-filter: blur(8px);
+    }
+
+    .help-hero h1 {
+      color: #fff;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 800;
+      margin-bottom: .75rem;
+    }
+
+    .help-hero p {
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 1.1rem;
+      max-width: 560px;
+      margin: 0 auto;
+      line-height: 1.65;
+    }
+
+    /* ── Quick Nav Pills ── */
+    .help-nav {
+      background: #fff;
+      border-bottom: 2px solid var(--color-border);
+      position: sticky;
+      top: 60px;
+      z-index: 50;
+      padding: .75rem 0;
+    }
+
+    .help-nav-inner {
+      display: flex;
+      gap: .5rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding: 0 1rem;
+    }
+
+    .help-nav-inner::-webkit-scrollbar {
+      display: none;
+    }
+
+    .help-nav-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .45rem 1rem;
+      border-radius: var(--radius-pill);
+      background: var(--color-surface-soft);
+      border: 1px solid var(--color-border);
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      white-space: nowrap;
+      text-decoration: none;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .help-nav-pill:hover {
+      background: var(--color-emerald-tint);
+      border-color: var(--color-emerald);
+      color: var(--color-emerald-deep);
+    }
+
+    .help-nav-pill.active {
+      background: var(--color-forest);
+      border-color: var(--color-forest);
+      color: #fff;
+    }
+
+    /* ── Sections ── */
+    .help-section {
+      padding: 4rem 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .help-section:last-child {
+      border-bottom: none;
+    }
+
+    .help-section-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .help-section-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: var(--radius-large);
+      background: var(--color-emerald-tint);
+      border: 2px solid rgba(31, 122, 92, 0.2);
+      display: grid;
+      place-items: center;
+      font-size: 1.6rem;
+      flex-shrink: 0;
+    }
+
+    .help-section-header h2 {
+      margin: 0;
+      font-size: 1.75rem;
+      font-weight: 800;
+    }
+
+    .help-section-header p {
+      margin: .25rem 0 0;
+      color: var(--color-text-muted);
+      font-size: .95rem;
+    }
+
+    /* ── Feature Cards in Help ── */
+    .help-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .help-card {
+      background: #fff;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-medium);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-soft);
+      transition: var(--transition);
+    }
+
+    .help-card:hover {
+      border-color: var(--color-emerald);
+      box-shadow: 0 4px 20px rgba(31, 122, 92, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .help-card-head {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      margin-bottom: 1rem;
+    }
+
+    .help-card-emoji {
+      font-size: 1.5rem;
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: var(--color-surface-soft);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .help-card h3 {
+      font-size: 1.05rem;
+      margin: 0;
+      color: var(--color-forest);
+    }
+
+    .help-card p {
+      font-size: .9rem;
+      color: var(--color-text-muted);
+      line-height: 1.6;
+      margin: 0 0 .75rem;
+    }
+
+    .help-card-steps {
+      list-style: none;
+      padding: 0;
+      margin: .75rem 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+    }
+
+    .help-card-steps li {
+      display: flex;
+      align-items: flex-start;
+      gap: .6rem;
+      font-size: .875rem;
+      color: var(--color-text-muted);
+      line-height: 1.5;
+    }
+
+    .help-card-steps li::before {
+      content: attr(data-step);
+      min-width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--color-emerald-tint);
+      color: var(--color-emerald-deep);
+      font-weight: 700;
+      font-size: .75rem;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .help-card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      font-size: .85rem;
+      font-weight: 700;
+      color: var(--color-emerald-deep);
+      margin-top: .75rem;
+      text-decoration: none;
+    }
+
+    .help-card-link:hover {
+      color: var(--color-emerald);
+    }
+
+    /* ── Wide cards ── */
+    .help-card.wide {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    .help-card.wide .help-card-media {
+      width: 160px;
+      height: 110px;
+      border-radius: 10px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .help-card.wide .help-card-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ── Tip boxes ── */
+    .help-tip {
+      background: var(--color-gold-tint);
+      border: 1px solid rgba(242, 168, 29, 0.3);
+      border-left: 4px solid var(--color-gold);
+      border-radius: var(--radius-medium);
+      padding: 1rem 1.25rem;
+      font-size: .9rem;
+      color: var(--color-forest);
+      margin-top: 1.5rem;
+    }
+
+    .help-tip strong {
+      color: var(--color-gold-deep);
+    }
+
+    .help-warning {
+      background: var(--color-danger-tint);
+      border: 1px solid rgba(200, 65, 43, 0.2);
+      border-left: 4px solid var(--color-danger);
+      border-radius: var(--radius-medium);
+      padding: 1rem 1.25rem;
+      font-size: .9rem;
+      color: var(--color-forest);
+      margin-top: 1rem;
+    }
+
+    /* ── Steps flow ── */
+    .steps-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .step-flow-item {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      background: #fff;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-medium);
+      padding: 1rem 1.25rem;
+    }
+
+    .step-flow-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--color-emerald), var(--color-forest));
+      color: #fff;
+      font-weight: 800;
+      font-size: .85rem;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .step-flow-item h4 {
+      margin: 0 0 .25rem;
+      font-size: 1rem;
+      color: var(--color-forest);
+    }
+
+    .step-flow-item p {
+      margin: 0;
+      font-size: .875rem;
+      color: var(--color-text-muted);
+      line-height: 1.55;
+    }
+
+    /* ── FAQ ── */
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: .75rem;
+      margin-top: 1rem;
+    }
+
+    details.faq-item {
+      background: #fff;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-medium);
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    details.faq-item[open] {
+      border-color: var(--color-emerald);
+      box-shadow: 0 2px 12px rgba(31, 122, 92, 0.08);
+    }
+
+    details.faq-item summary {
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--color-forest);
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      font-size: .95rem;
+    }
+
+    details.faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    details.faq-item summary::after {
+      content: '▾';
+      font-size: 1rem;
+      color: var(--color-emerald);
+      transition: transform .2s;
+      flex-shrink: 0;
+    }
+
+    details.faq-item[open] summary::after {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      padding: 0 1.25rem 1.25rem;
+      font-size: .9rem;
+      color: var(--color-text-muted);
+      line-height: 1.7;
+      border-top: 1px solid var(--color-border);
+      padding-top: 1rem;
+      margin-top: 0;
+    }
+
+    /* ── Page tag badge ── */
+    .page-url-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .25rem .85rem;
+      background: var(--color-forest);
+      color: var(--color-emerald-light);
+      border-radius: var(--radius-pill);
+      font-size: .78rem;
+      font-weight: 700;
+      font-family: monospace;
+      margin-bottom: 1rem;
+      letter-spacing: .02em;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .help-card.wide {
+        grid-template-columns: 1fr;
+      }
+
+      .help-card.wide .help-card-media {
+        width: 100%;
+        height: 140px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav id="site-nav" aria-label="Main navigation"></nav>
+
+  <!-- Hero -->
+  <div class="help-hero">
+    <div class="container help-hero-inner">
+      <div class="help-hero-badge"><svg class="ic" width="16" height="16">
+          <use href="/assets/icons/sprite.svg#i-book"></use>
+        </svg> คู่มือการใช้งาน</div>
+      <h1>ทุกหน้า · ทุกฟีเจอร์<br>อธิบายครบในที่เดียว</h1>
+      <p>Travel and Challenge คือแพลตฟอร์มท่องเที่ยวเชิงเกม
+        ที่เปลี่ยนการท่องเที่ยวทั่วไทยให้กลายเป็นการผจญภัยพร้อมรางวัล ค้นหาสถานที่ — ทำเควสท์ — เก็บโทเคน — สะสมตัวละคร
+      </p>
+    </div>
+  </div>
+
+  <!-- Sticky quick nav -->
+  <nav class="help-nav" aria-label="Jump to section">
+    <div class="container help-nav-inner">
+      <a class="help-nav-pill active" href="#overview"><svg class="ic" width="15" height="15">
+          <use href="/assets/icons/sprite.svg#i-chart"></use>
+        </svg> ภาพรวม</a>
+      <a class="help-nav-pill" href="#home"><svg class="ic" width="15" height="15">
+          <use href="/assets/icons/sprite.svg#i-compass"></use>
+        </svg> หน้าแรก</a>
+      <a class="help-nav-pill" href="#explore"><svg class="ic" width="15" height="15">
+          <use href="/assets/icons/sprite.svg#i-map"></use>
+        </svg> สำรวจ</a>
+      <a class="help-nav-pill" href="#quests"><svg class="ic" width="15" height="15">
+          <use href="/assets/icons/sprite.svg#i-quest"></use>
+        </svg> เควสท์</a>
+      <a class="help-nav-pill" href="#place"><svg class="ic" width="15" height="15">
+          <use href="/assets/icons/sprite.svg#i-pin"></use>
+        </svg> รายละเอียดสถานที่</a>
+      <a class="help-nav-pill" href="#collection"><svg class="ic" width="15" height="15">
+          <use href="/assets/icons/sprite.svg#i-star"></use>
+        </svg> คอลเลกชัน</a>
+      <a class="help-nav-pill" href="#journal"><svg class="ic" width="15" height="15">
+          <use href="/assets/icons/sprite.svg#i-journal"></use>
+        </svg> ไดอารี่</a>
+      <a class="help-nav-pill" href="#calendar"><svg class="ic" width="15" height="15">
+          <use href="/assets/icons/sprite.svg#i-calendar"></use>
+        </svg> ปฏิทิน</a>
+      <a class="help-nav-pill" href="#planner"><svg class="ic" width="15" height="15">
+          <use href="/assets/icons/sprite.svg#i-ai"></use>
+        </svg> AI วางแผน</a>
+      <a class="help-nav-pill" href="#profile"><svg class="ic" width="15" height="15">
+          <use href="/assets/icons/sprite.svg#i-user"></use>
+        </svg> โปรไฟล์</a>
+      <a class="help-nav-pill" href="#admin"><svg class="ic" width="15" height="15">
+          <use href="/assets/icons/sprite.svg#i-settings"></use>
+        </svg> แอดมิน</a>
+      <a class="help-nav-pill" href="#faq"><svg class="ic" width="15" height="15">
+          <use href="/assets/icons/sprite.svg#i-info"></use>
+        </svg> FAQ</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- ── Section 0: ภาพรวมแอป ── -->
+    <section class="help-section section" id="overview">
+      <div class="container">
+        <div class="help-section-header">
+          <div class="help-section-icon">🌏</div>
+          <div>
+            <h2>ภาพรวมของแอป Travel and Challenge</h2>
+            <p>ระบบทั้งหมดทำงานอย่างไร และเชื่อมกันอย่างไรบ้าง</p>
+          </div>
+        </div>
+
+        <div class="help-grid">
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">🗺️</div>
+              <h3>แนวคิดหลัก</h3>
+            </div>
+            <p>แอปเปลี่ยนการท่องเที่ยวทั่วไทยให้กลายเป็นประสบการณ์เชิงเกม ผู้เล่นสำรวจสถานที่จริง
+              ทำเควสท์ถ่ายรูปเช็คอินด้วย GPS ได้รับโทเคนเป็นรางวัล และปลดล็อกตัวละครไทยสุดพิเศษ</p>
+            <ul class="help-card-steps">
+              <li data-step="1">ลงทะเบียนฟรีเพื่อเริ่มต้น</li>
+              <li data-step="2">สำรวจสถานที่ท่องเที่ยวในแผนที่</li>
+              <li data-step="3">ทำเควสท์ถ่ายรูปเช็คอิน AI ตรวจสอบ</li>
+              <li data-step="4">รับโทเคน → สะสมตัวละครและรางวัล</li>
+            </ul>
+          </div>
+
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">🪙</div>
+              <h3>ระบบโทเคน (Token System)</h3>
+            </div>
+            <p>โทเคนคือสกุลเงินในเกม ได้รับจากการทำเควสท์สำเร็จ ยิ่งเควสท์ยากยิ่งได้โทเคนมาก
+              สามารถนำไปแลกปลดล็อกตัวละครไทยสุดพิเศษที่มีเรื่องราวและประวัติศาสตร์</p>
+            <ul class="help-card-steps">
+              <li data-step="1">เควสท์ง่าย = 10–30 โทเคน</li>
+              <li data-step="2">เควสท์กลาง = 50–100 โทเคน</li>
+              <li data-step="3">เควสท์ยาก = 150–300 โทเคน</li>
+              <li data-step="4">แคมเปญพิเศษ = โบนัสโทเคนเพิ่ม</li>
+            </ul>
+          </div>
+
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">🔒</div>
+              <h3>ความปลอดภัยของข้อมูล</h3>
+            </div>
+            <p>ทุกการมอบรางวัลและตรวจสอบเควสท์ทำผ่าน Server-Side Database Procedures ซึ่งป้องกันการโกงจากฝั่ง Client
+              ข้อมูลส่วนตัวทั้งหมดถูกเข้ารหัสและเก็บผ่าน Supabase</p>
+            <div class="help-tip">
+              <strong>💡 เคล็ดลับ:</strong> เปิด GPS ทุกครั้งก่อนทำเควสท์ถ่ายรูป เพราะ AI จะตรวจสอบพิกัดจริงก่อนยืนยัน
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Section 1: หน้าแรก ── -->
+    <section class="help-section section" id="home" style="background:#fff;">
+      <div class="container">
+        <div class="help-section-header">
+          <div class="help-section-icon">🏠</div>
+          <div>
+            <h2>หน้าแรก (Home)</h2>
+            <p>จุดเริ่มต้นของการผจญภัย รวมทุกฟีเจอร์หลักไว้ในหน้าเดียว</p>
+          </div>
+        </div>
+
+
+        <div class="help-grid">
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">🌅</div>
+              <h3>Hero Section — แบนเนอร์หลัก</h3>
+            </div>
+            <p>ส่วนแรกที่เห็นเมื่อเข้าแอป มีภาพพาโนรามาไทย ชื่อแอป คำอธิบาย และปุ่มลัด 2 ปุ่ม</p>
+            <ul class="help-card-steps">
+              <li data-step="1"><strong>ปุ่ม "Start Exploring"</strong> → ไปหน้าสำรวจแผนที่ทันที</li>
+              <li data-step="2"><strong>ปุ่ม "Plan with AI"</strong> → ไปหน้าวางแผนท่องเที่ยวด้วย AI</li>
+              <li data-step="3">แถบสถิติ: จำนวนจังหวัด, ความน่าเชื่อถือ, AI ที่ใช้, รางวัล</li>
+            </ul>
+          </div>
+
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">⭐</div>
+              <h3>Featured Destinations — แนะนำสถานที่เด่น</h3>
+            </div>
+            <p>การ์ดสถานที่ท่องเที่ยว 6 แห่งที่แนะนำ แต่ละการ์ดมีรูปจริง ชื่อ ตำแหน่ง สรุป และจำนวนเควสท์ที่รอทำ
+              คลิกเพื่อดูรายละเอียดสถานที่</p>
+            <a class="help-card-link" href="/explore.html">ดูสถานที่ทั้งหมด →</a>
+          </div>
+
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">🎮</div>
+              <h3>How Quests Work — วิธีการเล่น</h3>
+            </div>
+            <p>อธิบายขั้นตอนการเล่น 4 ขั้นตอนพร้อมรูปประกอบ ตั้งแต่เลือกสถานที่ → ถ่ายรูปเช็คอิน → รับโทเคน →
+              บันทึกไดอารี่</p>
+          </div>
+
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">🎯</div>
+              <h3>Active Campaigns — แคมเปญพิเศษ</h3>
+            </div>
+            <p>แคมเปญท่องเที่ยวตามฤดูกาล จำกัดเวลา
+              เมื่อสมัครและทำเควสท์ครบตามเงื่อนไขจะได้รับโทเคนโบนัสและตัวละครพิเศษเฉพาะแคมเปญ</p>
+            <a class="help-card-link" href="/quests.html">ดูเควสท์ทั้งหมด →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Section 2: สำรวจ ── -->
+    <section class="help-section section" id="explore">
+      <div class="container">
+        <div class="help-section-header">
+          <div class="help-section-icon">🗺️</div>
+          <div>
+            <h2>หน้าสำรวจสถานที่ (Explore)</h2>
+            <p>ค้นหาและกรองสถานที่ท่องเที่ยวบนแผนที่เชิงโต้ตอบ</p>
+          </div>
+        </div>
+
+
+        <div class="help-grid">
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">🔍</div>
+              <h3>แถบค้นหาและกรอง (Filters)</h3>
+            </div>
+            <p>กรองสถานที่ด้วย 4 ตัวกรอง: ค้นหาด้วยคำ, จังหวัด, เขต/อำเภอ, และประเภทสถานที่ ผลลัพธ์อัพเดทแบบ Real-time
+              ทั้งรายการและแผนที่พร้อมกัน</p>
+            <ul class="help-card-steps">
+              <li data-step="1">พิมพ์ชื่อสถานที่ เช่น "วัดอรุณ" หรือ "Chatuchak"</li>
+              <li data-step="2">เลือกจังหวัดหรือเขตที่ต้องการ</li>
+              <li data-step="3">กรองตามประเภท: วัด, ตลาด, สวน, พิพิธภัณฑ์</li>
+              <li data-step="4">รายการและหมุดแผนที่อัพเดททันที</li>
+            </ul>
+          </div>
+
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">📋</div>
+              <h3>รายการสถานที่ (List Pane)</h3>
+            </div>
+            <p>แสดงการ์ดสถานที่ทุกแห่งพร้อมรูปจริง, ป้ายประเภท, แท็กไฮไลท์ และจำนวนเควสท์ที่มี
+              คลิกการ์ดเพื่อดูรายละเอียดเต็ม</p>
+          </div>
+
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">📍</div>
+              <h3>แผนที่โต้ตอบ (Map Pane)</h3>
+            </div>
+            <p>แผนที่แบบ Interactive แสดงหมุดตำแหน่งสถานที่ทุกแห่ง คลิกหมุดเพื่อดูข้อมูลสถานที่ใน Popup
+              สามารถซูมและเลื่อนแผนที่ได้อิสระ</p>
+          </div>
+
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">🤖</div>
+              <h3>AI วางแผน (Popup ลอย)</h3>
+            </div>
+            <p>ปุ่ม Floating ที่หน้าสำรวจ กดเพื่อเปิด Popup รับ AI ช่วยวางแผนการท่องเที่ยว พิมพ์ความต้องการ AI
+              จะสร้างฟอร์มให้กรอกรายละเอียดและสร้างแผนท่องเที่ยวส่วนตัว</p>
+          </div>
+        </div>
+
+        <div class="help-tip">
+          <strong>💡 เคล็ดลับ:</strong> คลิกที่การ์ดสถานที่ในรายการ แผนที่จะซูมเข้าหาสถานที่นั้นและเปิด Popup
+          ให้อัตโนมัติ
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Section 3: เควสท์ ── -->
+    <section class="help-section section" id="quests" style="background:#fff;">
+      <div class="container">
+        <div class="help-section-header">
+          <div class="help-section-icon">⚔️</div>
+          <div>
+            <h2>หน้าเควสท์ (Quests)</h2>
+            <p>ภารกิจถ่ายรูปเช็คอินตามสถานที่จริง ตรวจสอบด้วย GPS + AI</p>
+          </div>
+        </div>
+
+
+        <div class="steps-flow">
+          <div class="step-flow-item">
+            <div class="step-flow-num">1</div>
+            <div>
+              <h4>เลือกเควสท์ที่สนใจ</h4>
+              <p>ดูรายการเควสท์ทั้งหมด กรองตามประเภท ระดับความยาก หรือสถานที่
+                กดที่การ์ดเควสท์เพื่อดูรายละเอียดและเริ่มทำ</p>
+            </div>
+          </div>
+          <div class="step-flow-item">
+            <div class="step-flow-num">2</div>
+            <div>
+              <h4>เดินทางไปยังสถานที่จริง</h4>
+              <p>ต้องไปอยู่ที่สถานที่นั้นจริงๆ แอปใช้ GPS เพื่อตรวจสอบว่าคุณอยู่ในรัศมีของสถานที่ (ปกติ 200–500 เมตร)
+                ก่อนอนุญาตให้ถ่ายรูป</p>
+            </div>
+          </div>
+          <div class="step-flow-item">
+            <div class="step-flow-num">3</div>
+            <div>
+              <h4>ถ่ายรูปเช็คอิน</h4>
+              <p>ถ่ายรูปที่สถานที่นั้น AI วิเคราะห์ภาพว่าตรงกับสถานที่ที่กำหนดหรือไม่ พร้อมตรวจสอบพิกัด GPS
+                ของรูปว่าอยู่ในพื้นที่จริง</p>
+            </div>
+          </div>
+          <div class="step-flow-item">
+            <div class="step-flow-num">4</div>
+            <div>
+              <h4>รับโทเคนรางวัล</h4>
+              <p>เมื่อ AI ยืนยันสำเร็จ ระบบ Database จะมอบโทเคนให้อัตโนมัติ เควสท์จะย้ายไปอยู่ในแท็บ "สำเร็จแล้ว"
+                และจะไม่สามารถทำซ้ำได้</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="help-grid" style="margin-top:2rem">
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">🔖</div>
+              <h3>แท็บกรองสถานะ</h3>
+            </div>
+            <p><strong>ทั้งหมด</strong> — เควสท์ทุกใบ | <strong>กำลังทำ</strong> — เควสท์ที่กำลังดำเนินการ |
+              <strong>สำเร็จแล้ว</strong> — ที่ทำเสร็จแล้วพร้อมประวัติ
+            </p>
+          </div>
+
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">🎯</div>
+              <h3>ระดับความยาก</h3>
+            </div>
+            <p><span style="color:#2e7d32">🟢 ง่าย</span> — สถานที่เข้าถึงง่าย | <span style="color:#f57c00">🟡
+                กลาง</span> — ต้องเดินทางบ้าง | <span style="color:#c62828">🔴 ยาก</span> —
+              ต้องใช้เวลาและความพยายามมากกว่า</p>
+          </div>
+
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">🧠</div>
+              <h3>การตรวจสอบ AI + GPS</h3>
+            </div>
+            <p>ระบบ dual-verification: GPS ตรวจพิกัดตำแหน่ง + AI วิเคราะห์ภาพว่าคืนสถานที่ที่ถูกต้อง
+              ป้องกันการใช้รูปเก่าหรือรูปจาก Internet</p>
+            <div class="help-warning">
+              ⚠️ ต้องเปิดอนุญาต GPS และกล้องให้เบราว์เซอร์ก่อนทำเควสท์ มิฉะนั้นจะไม่สามารถส่งได้
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Section 4: รายละเอียดสถานที่ ── -->
+    <section class="help-section section" id="place">
+      <div class="container">
+        <div class="help-section-header">
+          <div class="help-section-icon">📍</div>
+          <div>
+            <h2>รายละเอียดสถานที่ (Place Detail)</h2>
+            <p>ข้อมูลเชิงลึกของแต่ละสถานที่ท่องเที่ยว พร้อม Gallery และคำแนะนำผู้มาเยือน</p>
+          </div>
+        </div>
+
+
+        <div class="help-grid">
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">📸</div>
+              <h3>Gallery รูปภาพ</h3>
+            </div>
+            <p>รูปภาพจริงของสถานที่จาก Database ภาพ Cover และ Gallery เพื่อให้ผู้เล่นรู้จักสถานที่ก่อนไปจริง
+              ช่วยยืนยันว่าถ่ายรูปถูกสถานที่</p>
+          </div>
+
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">📖</div>
+              <h3>ประวัติและคำอธิบาย</h3>
+            </div>
+            <p>เรื่องราวทางประวัติศาสตร์ ความเป็นมา ความสำคัญ และข้อมูลน่าสนใจ เขียนทั้งภาษาไทยและอังกฤษ
+              ช่วยให้เข้าใจสถานที่ก่อนไป</p>
+          </div>
+
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">✨</div>
+              <h3>ไฮไลท์จุดเด่น</h3>
+            </div>
+            <p>การ์ดสรุปจุดเด่นที่ห้ามพลาด เช่น พระแก้วมรกต ณ วัดพระแก้ว หรือพระนอนยาว 46 เมตรที่วัดโพธิ์
+              พร้อมไอคอนและคำอธิบายกระชับ</p>
+          </div>
+
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">🕐</div>
+              <h3>ข้อมูลผู้มาเยือน</h3>
+            </div>
+            <p>เวลาเปิด-ปิด ค่าเข้าชม กฎการแต่งกาย เส้นทางการเดินทาง BTS/MRT ช่วงเวลาที่ดีที่สุดในการมาเยือน
+              ครบถ้วนทุกสิ่งที่ต้องรู้</p>
+          </div>
+
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">🚇</div>
+              <h3>การเดินทาง</h3>
+            </div>
+            <p>วิธีการเดินทางด้วยระบบขนส่งสาธารณะ BTS, MRT, เรือโดยสาร และรถเมล์
+              พร้อมระยะทางโดยประมาณจากป้ายที่ใกล้ที่สุด</p>
+          </div>
+
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">⚔️</div>
+              <h3>เควสท์ของสถานที่</h3>
+            </div>
+            <p>รายการเควสท์ที่ผูกกับสถานที่นี้ สามารถกดเริ่มเควสท์ได้จากหน้าสถานที่โดยตรง โดยไม่ต้องกลับไปที่หน้าเควสท์
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Section 5: คอลเลกชัน ── -->
+    <section class="help-section section" id="collection" style="background:#fff;">
+      <div class="container">
+        <div class="help-section-header">
+          <div class="help-section-icon">👑</div>
+          <div>
+            <h2>คอลเลกชัน (Collection)</h2>
+            <p>ดูยอดโทเคน ตัวละครที่สะสม ความสำเร็จ และประวัติรางวัลทั้งหมด</p>
+          </div>
+        </div>
+
+
+        <div class="help-grid">
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">🪙</div>
+              <h3>ยอดโทเคน (Token Balance)</h3>
+            </div>
+            <p>แสดงจำนวนโทเคนที่มีอยู่ปัจจุบัน พร้อมแถบ Progress แสดงความคืบหน้าสู่ตัวละครชิ้นต่อไป
+              จำนวนโทเคนสะท้อนเวลาและความพยายามที่ทุ่มเทกับการท่องเที่ยว</p>
+          </div>
+
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">🎭</div>
+              <h3>ตัวละครไทย (Characters)</h3>
+            </div>
+            <p>ตัวละครไทยจากประวัติศาสตร์และวัฒนธรรม เช่น "สยาม เอ็กซ์พลอเรอร์", "นักรบมหาราช"
+              ตัวละครที่ยังไม่ปลดล็อกจะมีพื้นหลังมืดและแสดงโทเคนที่ต้องการ</p>
+          </div>
+
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">🏆</div>
+              <h3>ความสำเร็จ (Achievements)</h3>
+            </div>
+            <p>เหรียญรางวัลพิเศษจากการทำสิ่งที่ยิ่งใหญ่ เช่น "ทำเควสท์ครบ 10 ใบ" "เยี่ยมชม 5 วัด" "นักสำรวจตลาด" ฯลฯ
+              แต่ละ Achievement มีเรื่องราวและรูปไอคอนของตัวเอง</p>
+          </div>
+
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">📊</div>
+              <h3>ประวัติรางวัล (Reward History)</h3>
+            </div>
+            <p>ตารางบันทึกประวัติการรับโทเคนทุกครั้ง วันที่ แหล่งที่มา (เควสท์ไหน แคมเปญอะไร) และจำนวนโทเคนที่ได้รับ
+              ตรวจสอบได้ทุกเวลา</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Section 6: ไดอารี่ ── -->
+    <section class="help-section section" id="journal">
+      <div class="container">
+        <div class="help-section-header">
+          <div class="help-section-icon">📔</div>
+          <div>
+            <h2>ไดอารี่การท่องเที่ยว (Journal)</h2>
+            <p>บันทึกความทรงจำส่วนตัว เขียนบันทึก อัปโหลดรูป ส่วนตัว 100%</p>
+          </div>
+        </div>
+
+        <div class="help-grid">
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">✍️</div>
+              <h3>เขียนบันทึก</h3>
+            </div>
+            <p>สร้างบันทึกการเดินทางส่วนตัวได้ไม่จำกัด เขียนได้อิสระ ระบุวันที่ ชื่อบันทึก และเนื้อหา
+              ข้อมูลเก็บในคลาวด์ปลอดภัย เข้าถึงได้เฉพาะเจ้าของบัญชี</p>
+          </div>
+
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">🖼️</div>
+              <h3>อัปโหลดรูปภาพ</h3>
+            </div>
+            <p>แนบรูปภาพจากการเดินทางลงในบันทึก รูปถูกเก็บในคลาวด์ Storage ของ Supabase อย่างปลอดภัย
+              สามารถดูย้อนหลังได้ตลอด</p>
+          </div>
+
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">🔒</div>
+              <h3>ความเป็นส่วนตัว</h3>
+            </div>
+            <p>บันทึกทั้งหมดเป็นส่วนตัว ไม่มีผู้ใดอ่านได้นอกจากเจ้าของบัญชี ไม่มีฟีเจอร์แชร์หรือสาธารณะ
+              ออกแบบมาเพื่อความเป็นส่วนตัวโดยเฉพาะ</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Section 7: ปฏิทิน ── -->
+    <section class="help-section section" id="calendar" style="background:#fff;">
+      <div class="container">
+        <div class="help-section-header">
+          <div class="help-section-icon">📅</div>
+          <div>
+            <h2>ปฏิทินการท่องเที่ยว (Calendar)</h2>
+            <p>ดูประวัติการท่องเที่ยวและเควสท์บนปฏิทินรายเดือนแบบ Visual</p>
+          </div>
+        </div>
+
+
+        <div class="help-grid">
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">📆</div>
+              <h3>ปฏิทินรายเดือน</h3>
+            </div>
+            <p>แสดงกิจกรรมทั้งหมดของเดือนในรูปแบบปฏิทิน วันที่ทำเควสท์สำเร็จ วันที่บันทึกไดอารี่ และทริปที่วางแผนไว้
+              จะแสดงเป็น Dot บนวันที่นั้น</p>
+          </div>
+
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">🗓️</div>
+              <h3>กดดูรายละเอียดวัน</h3>
+            </div>
+            <p>คลิกที่วันใดๆ บนปฏิทินเพื่อดูรายละเอียดทุกสิ่งที่เกิดขึ้นในวันนั้น ทั้งเควสท์ที่ทำ โทเคนที่ได้รับ
+              และบันทึกที่เขียน</p>
+          </div>
+
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">📈</div>
+              <h3>ดูสถิติการท่องเที่ยว</h3>
+            </div>
+            <p>สรุปสถิติรายเดือน จำนวนสถานที่ที่ไปเยือน จำนวนเควสท์สำเร็จ โทเคนที่ได้รับ และบันทึกที่เขียน
+              ช่วยติดตามความก้าวหน้า</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Section 8: AI Planner ── -->
+    <section class="help-section section" id="planner">
+      <div class="container">
+        <div class="help-section-header">
+          <div class="help-section-icon">🤖</div>
+          <div>
+            <h2>AI วางแผนท่องเที่ยว (AI Planner)</h2>
+            <p>ให้ GPT-OSS ช่วยสร้างแผนท่องเที่ยวส่วนตัวจากสถานที่จริงในฐานข้อมูล</p>
+          </div>
+        </div>
+
+
+        <div class="help-grid">
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">💬</div>
+              <h3>วิธีใช้งาน AI Planner</h3>
+            </div>
+            <p>กรอกรายละเอียดทริปที่ต้องการ เช่น จำนวนวัน งบประมาณ ความสนใจ จำนวนคน และพื้นที่ที่สนใจ AI
+              จะสร้างแผนท่องเที่ยวเฉพาะสำหรับคุณ</p>
+            <ul class="help-card-steps">
+              <li data-step="1">บอก AI ว่าต้องการทริปแบบไหน (ธรรมชาติ, วัด, ตลาด)</li>
+              <li data-step="2">ระบุจำนวนวัน งบประมาณ และจำนวนคน</li>
+              <li data-step="3">AI ดึงสถานที่จากฐานข้อมูลจริงเท่านั้น</li>
+              <li data-step="4">บันทึกแผนท่องเที่ยวไว้ในโปรไฟล์</li>
+            </ul>
+          </div>
+
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">✅</div>
+              <h3>Grounded AI (AI ที่ยึดข้อมูลจริง)</h3>
+            </div>
+            <p>AI จะแนะนำเฉพาะสถานที่ที่มีในฐานข้อมูล ไม่สร้างข้อมูลปลอมหรือสถานที่สมมติ
+              ทุกสถานที่ที่แนะนำผ่านการตรวจสอบและมีข้อมูลจริง</p>
+            <div class="help-tip">
+              <strong>💡 เคล็ดลับ:</strong> ยิ่งบอก AI รายละเอียดมาก เช่น "ชอบอาหาร ไม่ชอบรถติด มีเด็กเล็ก"
+              ยิ่งได้แผนที่ตรงใจมากขึ้น
+            </div>
+          </div>
+
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">📋</div>
+              <h3>บันทึกและจัดการแผน</h3>
+            </div>
+            <p>แผนท่องเที่ยวที่สร้างแล้วสามารถบันทึกได้ใน Profile → Saved Trips เพื่อดูย้อนหลัง แก้ไข หรือแชร์กับเพื่อน
+            </p>
+          </div>
+
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">🗺️</div>
+              <h3>AI Popup ที่หน้าสำรวจ</h3>
+            </div>
+            <p>นอกจากหน้า Planner เต็มรูปแบบ ยังมี AI Popup ลอยที่หน้าสำรวจ กดปุ่ม AI เล็กๆ มุมขวาล่างเพื่อเปิด Popup
+              บอก AI สั้นๆ แล้ว AI จะสร้างฟอร์มแผนให้กรอกต่อ</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Section 9: โปรไฟล์ ── -->
+    <section class="help-section section" id="profile" style="background:#fff;">
+      <div class="container">
+        <div class="help-section-header">
+          <div class="help-section-icon">👤</div>
+          <div>
+            <h2>โปรไฟล์ (Profile)</h2>
+            <p>จัดการบัญชี ดูสถิติ ดูประวัติเควสท์ และทริปที่บันทึกไว้</p>
+          </div>
+        </div>
+
+
+        <div class="help-grid">
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">📊</div>
+              <h3>สถิติผู้เล่น</h3>
+            </div>
+            <p>ดูสถิติรวมของคุณ: เควสท์ที่ทำสำเร็จ สถานที่ที่เยือน โทเคนทั้งหมด และทริปที่บันทึกไว้
+              แสดงเป็นตัวเลขชัดเจนบนการ์ดโปรไฟล์</p>
+          </div>
+
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">⚔️</div>
+              <h3>ประวัติเควสท์</h3>
+            </div>
+            <p>รายการเควสท์ทั้งหมดที่เคยทำสำเร็จ เรียงตามวันที่ แสดงชื่อเควสท์ สถานที่ และโทเคนที่ได้รับ</p>
+          </div>
+
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">🗺️</div>
+              <h3>ทริปที่บันทึก (Saved Trips)</h3>
+            </div>
+            <p>รายการแผนท่องเที่ยวทั้งหมดที่เคยสร้างด้วย AI Planner กดดูรายละเอียดแผนแต่ละทริปได้</p>
+          </div>
+
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">⚙️</div>
+              <h3>ตั้งค่าบัญชี</h3>
+            </div>
+            <p>เปลี่ยนชื่อที่แสดง เปลี่ยนรหัสผ่าน หรือลบบัญชีถาวร (ไม่สามารถกู้คืนได้) มีส่วน Danger Zone
+              ที่ต้องยืนยันก่อนทุกครั้ง</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Section 10: Admin ── -->
+    <section class="help-section section" id="admin">
+      <div class="container">
+        <div class="help-section-header">
+          <div class="help-section-icon">⚙️</div>
+          <div>
+            <h2>แผงควบคุมแอดมิน (Admin Dashboard)</h2>
+            <p>ระบบจัดการสำหรับผู้ดูแลระบบเท่านั้น เข้าถึงได้เฉพาะบัญชีที่มีสิทธิ์</p>
+          </div>
+        </div>
+
+
+        <div class="help-warning">
+          ⚠️ <strong>สำหรับผู้ดูแลระบบเท่านั้น</strong> — ไม่มีปุ่มเข้าถึงในหน้าเว็บปกติ ต้องรู้ URL
+          และมีบัญชีแอดมินที่ได้รับอนุมัติ
+        </div>
+
+        <div class="help-grid" style="margin-top:2rem">
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">📍</div>
+              <h3>จัดการสถานที่ท่องเที่ยว</h3>
+            </div>
+            <p>เพิ่มสถานที่ใหม่ด้วยการปักหมุดบนแผนที่ กรอกรายละเอียด อัปโหลดรูป กำหนดประเภท และตั้งค่าสถานะ
+              Published/Draft ได้ทันที</p>
+          </div>
+
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">⚔️</div>
+              <h3>สร้างเควสท์ใหม่</h3>
+            </div>
+            <p>สร้างเควสท์ถ่ายรูปเช็คอิน ผูกกับสถานที่ กำหนดระดับความยาก โทเคนรางวัล คำอธิบาย และรูปประกอบ
+              กำหนดแคมเปญพิเศษได้</p>
+          </div>
+
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">👥</div>
+              <h3>จัดการผู้ใช้</h3>
+            </div>
+            <p>ดูรายชื่อผู้ใช้ทั้งหมด ค้นหา บล็อกผู้ใช้ที่มีพฤติกรรมไม่เหมาะสม หรือปลดบล็อก
+              ดูสถิติการใช้งานของผู้ใช้แต่ละคน</p>
+          </div>
+
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">➕</div>
+              <h3>สร้างบัญชีผู้ใช้</h3>
+            </div>
+            <p>แอดมินสามารถสร้างบัญชีใหม่ให้ผู้ใช้ได้โดยตรง กรอก Email, รหัสผ่านเริ่มต้น, และบทบาท (user / admin)</p>
+          </div>
+
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">📊</div>
+              <h3>ดูการใช้ AI Token</h3>
+            </div>
+            <p>ติดตามการใช้งาน API Token ของ AI (GPT-OSS) แสดงจำนวน Token ที่ใช้ไป ค่าใช้จ่าย และ Request ล่าสุด
+              เพื่อควบคุมต้นทุน</p>
+          </div>
+
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">🤖</div>
+              <h3>AI Chat สำหรับแอดมิน</h3>
+            </div>
+            <p>Chat กับ AI ได้โดยตรงจากแผงแอดมิน ถามตอบทั่วไป ช่วยตรวจสอบเนื้อหา แปลภาษา
+              หรือช่วยสร้างคำอธิบายสถานที่ใหม่ๆ</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Section 11: Onboarding ── -->
+    <section class="help-section section" id="onboarding" style="background:#fff;">
+      <div class="container">
+        <div class="help-section-header">
+          <div class="help-section-icon">🎓</div>
+          <div>
+            <h2>การแนะนำผู้เล่นใหม่ (Onboarding Tutorial)</h2>
+            <p>สอนใช้งานแอปแบบ Step-by-Step พร้อมภาพประกอบ</p>
+          </div>
+        </div>
+
+        <div class="help-grid">
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">🆕</div>
+              <h3>เปิดอัตโนมัติสำหรับผู้ใช้ใหม่</h3>
+            </div>
+            <p>เมื่อเข้าแอปครั้งแรก Tutorial จะเปิดขึ้นอัตโนมัติ สอนการใช้งาน 5 ขั้นตอนพร้อมภาพ SVG ประกอบสวยงาม</p>
+          </div>
+
+          <div class="help-card">
+            <div class="help-card-head">
+              <div class="help-card-emoji">❓</div>
+              <h3>เปิดซ้ำได้เสมอ</h3>
+            </div>
+            <p>กดปุ่ม "?" ลอยมุมล่างซ้ายของหน้าแรกได้ตลอดเวลาเพื่อเปิด Tutorial ดูซ้ำ หรือแนะนำเพื่อนที่เพิ่งเริ่มใช้
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Section 12: FAQ ── -->
+    <section class="help-section section" id="faq">
+      <div class="container">
+        <div class="help-section-header">
+          <div class="help-section-icon">❓</div>
+          <div>
+            <h2>คำถามที่พบบ่อย (FAQ)</h2>
+            <p>คำตอบสำหรับคำถามที่พบบ่อยที่สุด</p>
+          </div>
+        </div>
+
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary>ต้องเสียเงินเพื่อเล่นไหม?</summary>
+            <p class="faq-answer">ไม่เสียค่าใช้จ่ายใดๆ ทั้งสิ้น! สมัครสมาชิก สำรวจสถานที่ ทำเควสท์
+              และสะสมตัวละครได้ฟรีทั้งหมด ค่าใช้จ่ายเดียวที่อาจมีคือค่าเข้าชมสถานที่บางแห่งที่ต้องจ่ายในชีวิตจริง</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>GPS ไม่ทำงาน ทำเควสท์ได้ไหม?</summary>
+            <p class="faq-answer">ไม่ได้ครับ การตรวจสอบตำแหน่ง GPS เป็นส่วนสำคัญของระบบ
+              เพื่อยืนยันว่าคุณอยู่ที่สถานที่จริงๆ กรุณาอนุญาตให้เบราว์เซอร์เข้าถึง Location ก่อนทำเควสท์ ถ้า GPS
+              ไม่แม่นยำในอาคาร ให้ลองเดินออกมาข้างนอกก่อน</p>
+          </details>
+
+
+
+          <details class="faq-item">
+            <summary>โทเคนหายไปไหน?</summary>
+            <p class="faq-answer">โทเคนของคุณถูกเก็บอย่างปลอดภัยในฐานข้อมูล ไม่มีวันหมดอายุ
+              ตรวจสอบประวัติโทเคนได้ที่หน้า Collection → Reward History ถ้าคิดว่ามีความผิดพลาด ติดต่อแอดมินได้</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>สามารถทำเควสท์เดิมซ้ำได้ไหม?</summary>
+            <p class="faq-answer">ไม่ได้ครับ แต่ละเควสท์ทำได้ครั้งเดียว เพื่อให้แน่ใจว่าผู้เล่นไปเยือนสถานที่จริงๆ
+              ไม่ใช่ถ่ายรูปเดิมซ้ำ แต่ถ้าไปเยือนสถานที่เดิมอีกครั้ง อาจมีเควสท์ใหม่ที่แอดมินสร้างขึ้นให้ทำได้</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>บัญชีถูกบล็อก ทำอย่างไร?</summary>
+            <p class="faq-answer">บัญชีจะถูกบล็อกหากมีพฤติกรรมที่ไม่เหมาะสม เช่น พยายามโกง ส่งรูปปลอม หรือละเมิดกฎ
+              ติดต่อแอดมินเพื่อขอปลดบล็อกหรือชี้แจงสาเหตุ</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>AI Planner ใช้ AI ตัวไหน?</summary>
+            <p class="faq-answer">ใช้ GPT-OSS ซึ่งเป็นโมเดลภาษาที่ทรงพลัง โดย AI จะถูก "Grounded"
+              ด้วยข้อมูลสถานที่จริงจากฐานข้อมูลของเรา ทำให้ทุกคำแนะนำอ้างอิงสถานที่จริงที่มีอยู่ในแอป
+              ไม่สร้างข้อมูลสมมติ</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>รองรับกี่จังหวัด?</summary>
+            <p class="faq-answer">ปัจจุบันโฟกัสที่กรุงเทพมหานครและปริมณฑลเป็นหลัก กำลังขยายไปทั้ง 77 จังหวัดทั่วไทย
+              ติดตามการอัพเดทจากหน้า Campaigns เพื่อทราบเมื่อมีสถานที่ใหม่เพิ่ม</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section" style="background: var(--color-forest); padding: 4rem 0; text-align:center">
+      <div class="container">
+        <h2 style="color:#fff; font-size:clamp(1.6rem,3vw,2.25rem)">พร้อมเริ่มผจญภัยแล้วหรือยัง? 🌏</h2>
+        <p
+          style="color:rgba(255,255,255,0.75); max-width:480px; margin:.75rem auto 2rem; font-size:1.05rem; line-height:1.65">
+          สำรวจสถานที่ท่องเที่ยวทั่วไทย ทำเควสท์จริง รับโทเคน และสะสมตัวละครไทยสุดพิเศษ</p>
+        <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+          <a class="btn btn-large" href="/explore.html"
+            style="background:var(--color-gold);color:var(--color-forest);border-color:var(--color-gold)">🗺️
+            สำรวจสถานที่เลย</a>
+          <a class="btn btn-large btn-secondary" href="/quests.html"
+            style="background:transparent;color:#fff;border-color:rgba(255,255,255,0.4)">⚔️ ดูเควสท์ทั้งหมด</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer id="site-footer"></footer>
+  <script type="module" src="/js/app.js"></script>
+  <script>
+    // Smooth scroll for nav pills
+    document.querySelectorAll('.help-nav-pill').forEach(pill => {
+      pill.addEventListener('click', e => {
+        e.preventDefault();
+        const target = document.querySelector(pill.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        document.querySelectorAll('.help-nav-pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+      });
+    });
+
+    // Update active pill on scroll
+    const sections = document.querySelectorAll('.help-section[id]');
+    const pills = document.querySelectorAll('.help-nav-pill');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          pills.forEach(p => p.classList.remove('active'));
+          const pill = document.querySelector(`.help-nav-pill[href="#${e.target.id}"]`);
+          if (pill) {
+            pill.classList.add('active');
+            pill.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+          }
+        }
+      });
+    }, { threshold: 0.3, rootMargin: '-60px 0px -50% 0px' });
+    sections.forEach(s => obs.observe(s));
+  </script>
+</body>
+
+</html>
