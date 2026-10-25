@@ -1,0 +1,52 @@
+/* Core keyframes */
+@keyframes fade-up    { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:none; } }
+@keyframes fade-in    { from { opacity:0; } to { opacity:1; } }
+@keyframes float      { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-10px); } }
+@keyframes spin       { to { transform:rotate(360deg); } }
+@keyframes slide-in-r { from { opacity:0; transform:translateX(24px); } to { opacity:1; transform:none; } }
+@keyframes pulse-dot  { 0%,100% { opacity:1; } 50% { opacity:.4; } }
+@keyframes shimmer    {
+  from { background-position: -600px 0; }
+  to   { background-position:  600px 0; }
+}
+
+/* Utility classes */
+.fade-up   { animation: fade-up  .5s ease both; }
+.fade-in   { animation: fade-in  .4s ease both; }
+.float     { animation: float    6s ease-in-out infinite; }
+.slide-in  { animation: slide-in-r .35s ease both; }
+
+/* Card hover lift (applied from desktop.css; only on pointer:fine devices) */
+@media (hover:hover) and (pointer:fine) {
+  .card-hover { transition: transform .2s ease, box-shadow .2s ease; }
+  .card-hover:hover { transform: translateY(-3px); box-shadow: var(--shadow-strong); }
+}
+
+/* Skeleton / shimmer loading placeholder */
+.skeleton {
+  background: linear-gradient(90deg, var(--color-border) 25%, #edf2ee 50%, var(--color-border) 75%);
+  background-size: 600px 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: var(--radius-small);
+  display: block;
+}
+
+/* Toast slide-in */
+.toast { animation: slide-in-r .3s ease both; }
+
+/* Staggered fade-up for grid children */
+.grid .card:nth-child(1) { animation-delay: .05s; }
+.grid .card:nth-child(2) { animation-delay: .12s; }
+.grid .card:nth-child(3) { animation-delay: .19s; }
+.grid .card:nth-child(4) { animation-delay: .26s; }
+
+/* Active badge pulse */
+.badge-live { animation: pulse-dot 2s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important; transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+

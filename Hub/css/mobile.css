@@ -1,0 +1,161 @@
+/* Small-screen behavior. Touch targets are >= 44px (see .btn, inputs in base.css). */
+@media (max-width: 899px) {
+  .nav-toggle { display: block; }
+  #site-nav { position: sticky; top: 0; z-index: 50; flex-wrap: wrap; }
+  .nav-toggle {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border: 1.5px solid rgba(255,255,255,.35);
+    border-radius: var(--radius-small);
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+  .nav-toggle:hover { background: rgba(255,255,255,.12); }
+  #site-nav.open .nav-toggle { background: var(--color-gold); color: var(--color-forest); border-color: var(--color-gold); }
+  .nav-links {
+    display: none; width: 100%; order: 3; flex-direction: column; align-items: stretch; gap: 0; padding: .25rem 4% 1rem;
+    background: var(--color-forest); border-top: 1px solid rgba(255,255,255,.15);
+  }
+  #site-nav.open .nav-links { display: flex; }
+  .nav-links li { border-bottom: 1px solid rgba(255,255,255,.08); }
+  .nav-links li:last-child { border-bottom: 0; }
+  .nav-links a:not(.btn) { min-height: 48px; padding: .75rem .25rem; border-bottom: 0; font-size: 1rem; }
+  .nav-links a[aria-current=page] { color: var(--color-gold); }
+  .nav-links .btn-lang { margin: .6rem 0 .25rem; min-height: 44px !important; }
+  #nav-auth { padding: .25rem 0 .5rem; }
+  #nav-auth .nav-user-pill { min-height: 44px; }
+  .nav-links a:not(.btn) { display: block; padding: .85rem .5rem; }
+  .nav-links li { width: 100%; }
+  .nav-links .btn { width: 100%; margin-top: .5rem; }
+
+  /* Footer: stack brand above link columns */
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: var(--space-5); }
+  .footer-brand { grid-column: 1 / -1; }
+  .footer-brand p { max-width: 100%; }
+}
+@media (max-width: 767px) {
+  /* Base resets */
+  .grid { grid-template-columns: 1fr; }
+  .split > * + * { margin-top: var(--space-5); }
+  .hero-actions { display: flex; flex-direction: column; gap: .75rem; }
+  .hero-actions .btn { width: 100%; }
+  .chip-quest { left: 8px; top: 12px; }
+  .chip-reward { right: 8px; bottom: 12px; }
+  .hero-stats { gap: 1rem; }
+  .hero-stat-sep { display: none; }
+  dialog.modal { padding: var(--space-4); width: 94vw; }
+  #toast-region { left: 1rem; right: 1rem; max-width: none; }
+
+  /* Explore — stacked on mobile */
+  .explore { overflow: visible; height: auto; }
+  .filters { grid-template-columns: 1fr 1fr; gap: var(--space-2); padding: var(--space-3) 4%; }
+  .explore-body { grid-template-columns: 1fr; }
+  .map-pane { height: 260px; }
+  .map { height: 100%; }
+  .list-pane { padding: var(--space-3); }
+
+  /* Place detail */
+  .place-map { height: 220px; }
+
+  /* Quests */
+  .quest-filters { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); }
+
+  /* Journal */
+  .journal-bar { display: flex; flex-direction: column; gap: var(--space-3); }
+  .thumbs { flex-wrap: wrap; }
+
+  /* Calendar */
+  .cal-grid { font-size: .8rem; }
+  .cal-head { gap: var(--space-2); }
+
+  /* Planner */
+  .planner { grid-template-columns: 1fr; }
+  .planner-map { height: 240px; }
+  .row2 { display: flex; flex-direction: column; }
+
+  /* Collection */
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+
+  /* Admin */
+  .admin-tabs { display: flex; flex-direction: column; }
+  .admin-tabs .tab-btn { border-radius: 0; border-bottom: 1px solid var(--color-border); }
+
+  /* Profile */
+  .profile-layout { grid-template-columns: 1fr; }
+  .profile-card { text-align: center; }
+
+  /* Tables — horizontally scrollable */
+  .table-wrap { border-radius: 0; }
+}
+
+
+/* Phone screens: icon-only top bar & menu grid. No text can overlap, because there is none. */
+@media (max-width: 560px) {
+  /* Single-column footer */
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-brand { grid-column: auto; }
+
+  /* --- Top bar: brand badge + hamburger only --- */
+  #site-nav {
+    gap: .5rem;
+    padding: .55rem 4%;
+    padding-top: max(.55rem, env(safe-area-inset-top, 0px));
+  }
+  .brand { gap: .4rem; min-width: 0; }
+  .brand-badge { width: 30px; height: 30px; }
+  .brand-text { display: none; } /* icon only — no name */
+  .nav-toggle { width: 44px; height: 44px; min-width: 44px; min-height: 44px; }
+
+  /* --- Open menu: grid of icon tiles, labels hidden --- */
+  #site-nav.open .nav-links {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: .35rem;
+    padding: .5rem 4% max(1rem, env(safe-area-inset-bottom, 0px));
+    max-height: calc(100dvh - 64px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  #nav-links li { width: auto; border-bottom: 0; }
+  #nav-links .nav-item a:not(.btn) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .3rem;
+    min-height: 58px;
+    padding: .45rem .2rem;
+    border: 1px solid rgba(255, 255, 255, .14);
+    border-radius: var(--radius-small);
+    font-size: 0; /* hide names — icon only */
+  }
+  #nav-links .nav-item a[aria-current=page] {
+    border-color: var(--color-gold);
+    background: rgba(242, 168, 29, .1);
+  }
+  #nav-links .nav-item .ic { width: 20px; height: 20px; }
+  #nav-links .nav-label { display: none; }
+
+  /* Language toggle: own full-width row (tiny EN/TH label is fine) */
+  #nav-links .nav-lang { grid-column: 1 / -1; border-bottom: 0; }
+  #nav-links .nav-lang .btn-lang { width: 100%; margin: 0; min-height: 44px; }
+  #nav-links .nav-lang .nav-label { display: inline; font-size: .85rem; }
+  #nav-links .nav-lang .ic { width: 14px; height: 14px; }
+
+  /* Auth slot: icon-only row (avatar / token / logout) */
+  #nav-auth {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: .5rem;
+    grid-column: 1 / -1;
+    padding: .25rem 0 0;
+  }
+  #nav-auth .nav-user-pill { flex: 1 1 100%; justify-content: center; min-height: 44px; }
+  #nav-auth .nav-user-name,
+  #nav-auth .nav-role-badge { display: none; } /* icon only — no name */
+  #nav-auth .nav-btn-topup-square { flex: 0 0 auto; width: 40px; height: 40px; min-width: 40px; min-height: 40px; }
+  #nav-auth #logout { flex: 1 1 auto; width: auto; margin: 0; min-height: 44px; }
+  #nav-auth #logout .nav-label { display: none; } /* icon only — no name */
+}

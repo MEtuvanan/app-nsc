@@ -1,0 +1,22 @@
+{
+  "name": "travel-and-challenge",
+  "version": "1.0.0",
+  "description": "Gamified tourism platform for Thailand with quests, token rewards, travel journal, and AI trip planner",
+  "type": "module",
+  "scripts": {
+    "dev": "node dev-server.mjs",
+    "start": "node dev-server.mjs"
+  },
+  "keywords": [
+    "thailand",
+    "tourism",
+    "travel",
+    "gamification",
+    "supabase",
+    "ai-planner"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "sharp": "^0.35.5"
+  }
+}

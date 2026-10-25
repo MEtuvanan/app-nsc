@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>สำรวจสถานที่ท่องเที่ยว — Travel and Challenge</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/mobile.css">
+<link rel="stylesheet" href="/css/pages/explore.css">
+<link rel="stylesheet" href="/css/pages/explore-mobile.css">
+<link rel="stylesheet" href="/css/components/ai-planner-modal.css">
+</head>
+<body data-protected='true' class='xm-body'>
+<nav id='site-nav' aria-label='Main'></nav>
+<main class='xm'>
+  <div class='xm-map-wrap'>
+    <div id='map-error' class='alert alert-error' role='alert' hidden></div>
+    <div id='map' class='map'></div>
+  </div>
+
+  <header class='xm-top'>
+    <p class='xm-top-title'><svg class="ic" width="18" height="18" aria-hidden="true"><use href="/assets/icons/sprite.svg#i-map"></use></svg> สำรวจสถานที่ทั่วไทย</p>
+    <form id='filters' class='xm-search' role='search' aria-label='ค้นหาสถานที่ท่องเที่ยว'>
+      <div class='search-bar-row'>
+        <div class='search-input-wrap'>
+          <span class='search-input-icon'><svg class="ic" width="16" height="16" aria-hidden="true"><use href="/assets/icons/sprite.svg#i-search"></use></svg></span>
+          <input id='search' type='search' maxlength='80' placeholder='ค้นหาสถานที่, วัด, ตลาด, คาเฟ่…' autocomplete='off'>
+          <button type='button' id='search-clear-btn' class='search-clear-btn' aria-label='ล้างคำค้นหา' hidden><svg class="ic" width="14" height="14" aria-hidden="true"><use href="/assets/icons/sprite.svg#i-close"></use></svg></button>
+        </div>
+      </div>
+    </form>
+  </header>
+
+  <div class='xm-fabs'>
+    <button type='button' class='xm-fab' aria-label='ตำแหน่งของฉัน' title='ตำแหน่งของฉัน'><svg class="ic" width="18" height="18" aria-hidden="true"><use href="/assets/icons/sprite.svg#i-compass"></use></svg></button>
+    <a class='xm-fab' href='/help.html#explore' target='_blank' aria-label='คู่มือการสำรวจ' title='คู่มือการสำรวจ'><svg class="ic" width="18" height="18" aria-hidden="true"><use href="/assets/icons/sprite.svg#i-book"></use></svg></a>
+  </div>
+
+  <section class='xm-sheet' id='sheet' aria-label='รายการสถานที่'>
+    <button type='button' id='sheet-handle' class='xm-handle' aria-expanded='true' aria-label='ขยาย/ย่อรายการ'><span></span></button>
+    <div class='xm-summary'>
+      <div class='xm-summary-text'>
+        <p class='xm-count'>สถานที่ทั้งหมด</p>
+        <p id='status' role='status' class='meta'></p>
+      </div>
+      <button type='button' class='xm-close' id='sheet-close' aria-label='ปิดรายการ'>✕</button>
+    </div>
+    <ul id='list' class='place-list'></ul>
+  </section>
+</main>
+<script type='module' src='/js/app.js'></script>
+<script type='module' src='/js/explore.js?v=2'></script>
+<script type='module' src='/js/explore-sheet.js'></script>
+</body>
+</html>
